@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Servare - Database Patrimonial</title>
+    <meta name="description" content="Transformamos la gestión del patrimonio cultural con tecnología inteligente y metodología estandarizada.">
+    <meta name="keywords" content="patrimonio, conservación, restauración, arqueología, museos, gestión cultural, tecnología patrimonial">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/style.css?v=2.1">
+    
+    <!-- Configuración -->
+    <script src="js/config.js?v=1.1"></script>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
+    <link rel="shortcut icon" href="images/IsotipoColor.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="images/IsotipoColor.png">
+    <link rel="manifest" href="site.webmanifest">
+    <meta name="theme-color" content="#1E3A8A">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="container navbar-container">
+            <a href="#inicio" class="logo-link">
+                <img src="images/servare-logo.png?v=1.0" alt="Servare Logo" class="logo">
+            </a>
+            
+            <ul class="nav-links">
+                <li><a href="#inicio">Inicio</a></li>
+                <li><a href="#que-es">¿Qué es Servare?</a></li>
+                <li><a href="#metodologia">Metodología</a></li>
+                <li><a href="#biblioteca">Biblioteca</a></li>
+                <li><a href="#vitrina">Vitrina</a></li>
+                <li><a href="#contacto">Contacto</a></li>
+                <li><a href="#" id="app-access-btn" class="btn btn-primary" style="display: none;">Acceder a la APP</a></li>
+                <li><a href="#" id="login-btn" class="btn btn-primary">Iniciar Sesión</a></li>
+            </ul>
+            
+            <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+                <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="inicio" class="hero">
+        <div class="container hero-content">
+            <div class="hero-text fade-in-up">
+                <h1>
+                    Transformamos la gestión del patrimonio con tecnología inteligente
+                </h1>
+                <p>
+                    Registre, analice y preserve el patrimonio cultural de forma digital, 
+                    con inteligencia artificial y metodología estandarizada.
+                </p>
+                
+                <div class="hero-buttons">
+                    <a href="#" id="hero-app-btn" class="btn btn-secondary" style="display: none;">Acceder a la APP</a>
+                    <a href="#" id="hero-login-btn" class="btn btn-secondary">Iniciar Sesión</a>
+                    <a href="#que-es" class="btn btn-outline" style="color: white; border-color: white;">Conocer más</a>
+                </div>
+                
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <span class="stat-number">50%</span>
+                        <span class="stat-label">Optimización de tiempos</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">100%</span>
+                        <span class="stat-label">Digitalización</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">AI</span>
+                        <span class="stat-label">Inteligencia Artificial</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="hero-visual fade-in-up">
+                <div class="hero-card">
+                    <div class="hero-icon">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                    <h3>Plataforma Integral de Gestión Patrimonial</h3>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Qué es Servare Section -->
+    <section id="que-es" class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">¿Qué es <span class="highlight">Servare</span>?</h2>
+                <p class="section-subtitle">
+                    Somos un conjunto de profesionales especializados en el patrimonio y su gestión, 
+                    dedicados a reducir la brecha tecnológica en el área mediante herramientas digitales innovadoras.
+                </p>
+            </div>
+            
+            <div class="cards-grid">
+                <div class="card fade-in-up">
+                    <div class="card-icon">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="card-title">El Problema Actual</h3>
+                    <p class="card-text">
+                        El levantamiento de información se realiza en fichas de papel, Excel o herramientas digitales privadas, 
+                        sin estandarización en la metodología, causando pérdida de tiempo y dificultades para el análisis.
+                    </p>
+                </div>
+                
+                <div class="card fade-in-up">
+                    <div class="card-icon">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="card-title">Nuestra Solución</h3>
+                    <p class="card-text">
+                        Una plataforma tecnológica con inteligencia artificial, geolocalización, formularios digitales 
+                        y análisis avanzado de datos para ofrecer una solución integral.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Metodología Section -->
+    <section id="metodologia" class="section" style="background-color: white;">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Metodología <span class="highlight">Estandarizada</span></h2>
+                <p class="section-subtitle">
+                    Una herramienta potente de formularios inteligentes para registrar de forma estandarizada 
+                    alteraciones y deterioros en bienes patrimoniales.
+                </p>
+            </div>
+            
+            <div class="cards-grid">
+                <div class="card fade-in-up">
+                    <div class="card-icon">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="card-title">Formularios Inteligentes</h3>
+                    <p class="card-text">
+                        Campos dinámicos con validación automática, saltos condicionales y lógica inteligente para capturar información precisa.
+                    </p>
+                </div>
+                
+                <div class="card fade-in-up">
+                    <div class="card-icon">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="card-title">Geolocalización Avanzada</h3>
+                    <p class="card-text">
+                        Ubicación GPS precisa con trabajo offline, mapas interactivos y coordenadas en múltiples formatos.
+                    </p>
+                </div>
+                
+                <div class="card fade-in-up">
+                    <div class="card-icon">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="card-title">Multimedia Completa</h3>
+                    <p class="card-text">
+                        Captura de imágenes, videos y audio con compresión automática y validación de formatos.
+                    </p>
+                </div>
+                
+                <div class="card fade-in-up">
+                    <div class="card-icon">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="card-title">Inteligencia Artificial</h3>
+                    <p class="card-text">
+                        Análisis automático de imágenes para detectar deterioros y generación de informes inteligentes.
+                    </p>
+                </div>
+                
+                <div class="card fade-in-up">
+                    <div class="card-icon">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="card-title">Sincronización Offline</h3>
+                    <p class="card-text">
+                        Trabajo sin conexión con sincronización automática cuando se restablece la conectividad.
+                    </p>
+                </div>
+                
+                <div class="card fade-in-up">
+                    <div class="card-icon">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="card-title">Seguridad Robusta</h3>
+                    <p class="card-text">
+                        Encriptación de datos, firmas digitales y respaldos automáticos para proteger la información sensible.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- App Section -->
+    <section id="app" class="section app-section">
+        <div class="container app-content">
+            <div class="app-features">
+                <h2 class="section-title" style="color: white; margin-bottom: 2rem;">
+                    Acceda a la <span class="highlight" style="color: var(--servare-accent);">Aplicación</span>
+                </h2>
+                <p style="font-size: 1.25rem; margin-bottom: 3rem; opacity: 0.9;">
+                    Nuestra aplicación profesional desarrollada en React Native para funcionar en dispositivos móviles 
+                    y web, con todas las funcionalidades avanzadas de gestión patrimonial.
+                </p>
+                
+                <div class="app-features">
+                    <div class="app-feature">
+                        <div class="app-feature-icon">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                            </svg>
+                        </div>
+                        <div class="app-feature-text">
+                            <h4>Formularios Inteligentes</h4>
+                            <p>Campos dinámicos, validación automática, saltos condicionales y lógica inteligente.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="app-feature">
+                        <div class="app-feature-icon">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                            </svg>
+                        </div>
+                        <div class="app-feature-text">
+                            <h4>Geolocalización GPS</h4>
+                            <p>Ubicación precisa con trabajo offline y mapas interactivos.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="app-feature">
+                        <div class="app-feature-icon">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                            </svg>
+                        </div>
+                        <div class="app-feature-text">
+                            <h4>Multimedia Completa</h4>
+                            <p>Captura de imágenes, videos y audio con compresión automática.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="app-feature">
+                        <div class="app-feature-icon">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                            </svg>
+                        </div>
+                        <div class="app-feature-text">
+                            <h4>Inteligencia Artificial</h4>
+                            <p>Análisis automático de imágenes y generación de informes inteligentes.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="app-feature">
+                        <div class="app-feature-icon">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                            </svg>
+                        </div>
+                        <div class="app-feature-text">
+                            <h4>Sincronización Offline</h4>
+                            <p>Trabajo sin conexión con sincronización automática posterior.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="text-align: center; margin-top: 3rem;">
+                    <a href="#" id="app-section-btn" class="btn btn-secondary" style="font-size: 1.125rem; padding: 1rem 2rem; display: none;">
+                        Acceder a la APP
+                    </a>
+                    <a href="#" id="app-section-login" class="btn btn-secondary" style="font-size: 1.125rem; padding: 1rem 2rem;">
+                        Iniciar Sesión para Acceder
+                    </a>
+                    <p style="margin-top: 1rem; opacity: 0.8; font-size: 0.875rem;">
+                        <strong>Fase Piloto</strong> - Inicia sesión para acceder a la aplicación
+                    </p>
+                    <p style="margin-top: 0.5rem; opacity: 0.6; font-size: 0.75rem;">
+                        Disponible en dispositivos móviles y navegadores web
+                    </p>
+                </div>
+            </div>
+            
+            <div class="app-mockup">
+                <div class="mockup-container">
+                    <div class="mockup-screen">
+                        <div class="mockup-header">
+                            <div class="mockup-logo">
+                                <div class="mockup-logo-dot"></div>
+                                <span style="font-weight: 600; color: var(--servare-dark);">Servare</span>
+                            </div>
+                            <div class="mockup-logo-dot"></div>
+                        </div>
+                        <div class="mockup-content">
+                            <div class="mockup-item"></div>
+                            <div class="mockup-item"></div>
+                            <div class="mockup-item"></div>
+                        </div>
+                        <div class="mockup-nav">
+                            <div class="mockup-nav-item"></div>
+                            <div class="mockup-nav-item"></div>
+                            <div class="mockup-nav-item"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Biblioteca Section -->
+    <section id="biblioteca" class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Biblioteca <span class="highlight">Patrimonial</span></h2>
+                <p class="section-subtitle">
+                    Recursos bibliográficos especializados organizados por categorías para apoyar 
+                    la investigación y gestión del patrimonio cultural.
+                </p>
+                <div style="display: inline-flex; align-items: center; gap: 0.5rem; background: var(--servare-accent); color: white; padding: 0.5rem 1rem; border-radius: 2rem; margin-top: 1rem;">
+                    <div style="width: 8px; height: 8px; background: white; border-radius: 50%; animation: pulse 2s infinite;"></div>
+                    <span style="font-weight: 600;">En Desarrollo</span>
+                </div>
+            </div>
+            
+            <div class="cards-grid">
+                <div class="card fade-in-up">
+                    <div class="card-icon" style="background: #3b82f6;">
+                        <span style="font-size: 1.5rem;">📁</span>
+                    </div>
+                    <h3 class="card-title">Archivo</h3>
+                    <p class="card-text">Documentación histórica y gestión de archivos</p>
+                </div>
+                
+                <div class="card fade-in-up">
+                    <div class="card-icon" style="background: #10b981;">
+                        <span style="font-size: 1.5rem;">🔧</span>
+                    </div>
+                    <h3 class="card-title">Conservación</h3>
+                    <p class="card-text">Técnicas y metodologías de conservación</p>
+                </div>
+                
+                <div class="card fade-in-up">
+                    <div class="card-icon" style="background: #8b5cf6;">
+                        <span style="font-size: 1.5rem;">🎨</span>
+                    </div>
+                    <h3 class="card-title">Restauración</h3>
+                    <p class="card-text">Procesos de restauración y rehabilitación</p>
+                </div>
+                
+                <div class="card fade-in-up">
+                    <div class="card-icon" style="background: #f59e0b;">
+                        <span style="font-size: 1.5rem;">🏺</span>
+                    </div>
+                    <h3 class="card-title">Arqueología</h3>
+                    <p class="card-text">Investigación arqueológica y excavaciones</p>
+                </div>
+                
+                <div class="card fade-in-up">
+                    <div class="card-icon" style="background: #ef4444;">
+                        <span style="font-size: 1.5rem;">🏛️</span>
+                    </div>
+                    <h3 class="card-title">Museos</h3>
+                    <p class="card-text">Gestión museológica y exposiciones</p>
+                </div>
+                
+                <div class="card fade-in-up">
+                    <div class="card-icon" style="background: #f59e0b;">
+                        <span style="font-size: 1.5rem;">🦕</span>
+                    </div>
+                    <h3 class="card-title">Paleontología</h3>
+                    <p class="card-text">Estudios paleontológicos y fósiles</p>
+                </div>
+                
+                <div class="card fade-in-up">
+                    <div class="card-icon" style="background: #6b7280;">
+                        <span style="font-size: 1.5rem;">⚖️</span>
+                    </div>
+                    <h3 class="card-title">Legales</h3>
+                    <p class="card-text">Marco legal y normativas patrimoniales</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Vitrina Section -->
+    <section id="vitrina" class="section" style="background-color: white;">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Vitrina de <span class="highlight">Fichas</span></h2>
+                <p class="section-subtitle">
+                    Facilitamos la visualización pública de registros patrimoniales organizados por institución, 
+                    con información detallada y estadísticas de conservación.
+                </p>
+                <div style="display: inline-flex; align-items: center; gap: 0.5rem; background: var(--servare-accent); color: white; padding: 0.5rem 1rem; border-radius: 2rem; margin-top: 1rem;">
+                    <div style="width: 8px; height: 8px; background: white; border-radius: 50%; animation: pulse 2s infinite;"></div>
+                    <span style="font-weight: 600;">En Desarrollo</span>
+                </div>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-bottom: 3rem;">
+                <div style="background: white; border: 1px solid #e5e7eb; border-radius: 1rem; padding: 1.5rem; text-align: center; box-shadow: var(--shadow-sm);">
+                    <div style="font-size: 2rem; margin-bottom: 0.5rem;">🏛️</div>
+                    <h3 style="font-weight: 600; margin-bottom: 0.5rem;">Museo Nacional de Historia Natural</h3>
+                    <p style="color: var(--servare-light); font-size: 0.875rem;">Santiago, Chile</p>
+                    <span style="background: var(--servare-secondary); color: white; padding: 0.25rem 0.75rem; border-radius: 1rem; font-size: 0.75rem;">150 registros</span>
+                </div>
+                
+                <div style="background: white; border: 1px solid #e5e7eb; border-radius: 1rem; padding: 1.5rem; text-align: center; box-shadow: var(--shadow-sm);">
+                    <div style="font-size: 2rem; margin-bottom: 0.5rem;">🏺</div>
+                    <h3 style="font-weight: 600; margin-bottom: 0.5rem;">Museo de Arte Precolombino</h3>
+                    <p style="color: var(--servare-light); font-size: 0.875rem;">Santiago, Chile</p>
+                    <span style="background: var(--servare-secondary); color: white; padding: 0.25rem 0.75rem; border-radius: 1rem; font-size: 0.75rem;">89 registros</span>
+                </div>
+                
+                <div style="background: white; border: 1px solid #e5e7eb; border-radius: 1rem; padding: 1.5rem; text-align: center; box-shadow: var(--shadow-sm);">
+                    <div style="font-size: 2rem; margin-bottom: 0.5rem;">📁</div>
+                    <h3 style="font-weight: 600; margin-bottom: 0.5rem;">Archivo Nacional de Chile</h3>
+                    <p style="color: var(--servare-light); font-size: 0.875rem;">Santiago, Chile</p>
+                    <span style="background: var(--servare-secondary); color: white; padding: 0.25rem 0.75rem; border-radius: 1rem; font-size: 0.75rem;">567 registros</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contacto" class="section contact-section">
+        <div class="container contact-content">
+            <div class="contact-info">
+                <h2 class="section-title" style="color: white; margin-bottom: 2rem;">
+                    ¿Interesado en <span class="highlight" style="color: var(--servare-accent);">Servare</span>?
+                </h2>
+                <p style="font-size: 1.25rem; margin-bottom: 3rem; opacity: 0.9;">
+                    Únete a nosotros en la transformación digital del patrimonio cultural. 
+                    Hay muchas formas de participar y contribuir a este proyecto innovador.
+                </p>
+                
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                        </svg>
+                    </div>
+                    <div class="contact-text">
+                        <h4>Email</h4>
+                        <a href="mailto:servare.dp@gmail.com">servare.dp@gmail.com</a>
+                        <p style="font-size: 0.875rem; opacity: 0.8; margin-top: 0.25rem;">Envíanos un correo electrónico</p>
+                    </div>
+                </div>
+                
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                        </svg>
+                    </div>
+                    <div class="contact-text">
+                        <h4>Ubicación</h4>
+                        <p>Santiago, Chile</p>
+                        <p style="font-size: 0.875rem; opacity: 0.8; margin-top: 0.25rem;">Nuestra sede principal</p>
+                    </div>
+                </div>
+                
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                        </svg>
+                    </div>
+                    <div class="contact-text">
+                        <h4>LinkedIn</h4>
+                        <a href="https://www.linkedin.com/company/servare-database-patrimonial" target="_blank">@servare-database-patrimonial</a>
+                        <p style="font-size: 0.875rem; opacity: 0.8; margin-top: 0.25rem;">Síguenos en LinkedIn</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div>
+                <h3 style="font-size: 1.5rem; font-weight: 600; margin-bottom: 2rem;">Formas de Colaborar</h3>
+                <div style="display: grid; gap: 1rem;">
+                    <div style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 1rem; padding: 1.5rem;">
+                        <div style="display: flex; align-items: center; gap: 1rem;">
+                            <span style="font-size: 1.5rem;">🏛️</span>
+                            <div>
+                                <h4 style="font-weight: 600; margin-bottom: 0.5rem;">Implementación Institucional</h4>
+                                <p style="font-size: 0.875rem; opacity: 0.8;">Lleva Servare a tu institución o museo</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 1rem; padding: 1.5rem;">
+                        <div style="display: flex; align-items: center; gap: 1rem;">
+                            <span style="font-size: 1.5rem;">🎓</span>
+                            <div>
+                                <h4 style="font-weight: 600; margin-bottom: 0.5rem;">Colaboración Académica</h4>
+                                <p style="font-size: 0.875rem; opacity: 0.8;">Participa en investigaciones y estudios</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 1rem; padding: 1.5rem;">
+                        <div style="display: flex; align-items: center; gap: 1rem;">
+                            <span style="font-size: 1.5rem;">💻</span>
+                            <div>
+                                <h4 style="font-weight: 600; margin-bottom: 0.5rem;">Desarrollo Tecnológico</h4>
+                                <p style="font-size: 0.875rem; opacity: 0.8;">Contribuye al desarrollo de nuevas funcionalidades</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="background: var(--servare-accent); border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 1.5rem; padding: 1.5rem; margin-top: 2rem;">
+                    <h4 style="font-weight: 600; margin-bottom: 1rem;">🏆 Reconocimiento</h4>
+                    <p style="font-size: 0.875rem; opacity: 0.9;">
+                        <strong>Ganadores del concurso nacional All In Chile 2024</strong><br>
+                        Compitiendo entre más de 1.300 proyectos innovadores
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Formulario de Contacto -->
+        <div class="contact-form">
+            <h3 style="font-size: 1.5rem; font-weight: 600; margin-bottom: 1.5rem; text-align: center;">Solicita Más Información</h3>
+            <form id="contact-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="nombre">Nombre completo *</label>
+                        <input type="text" id="nombre" name="nombre" required placeholder="Tu nombre completo">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email *</label>
+                        <input type="email" id="email" name="email" required placeholder="tu@email.com">
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="institucion">Institución/Organización</label>
+                        <input type="text" id="institucion" name="institucion" placeholder="Nombre de tu institución">
+                    </div>
+                    <div class="form-group">
+                        <label for="cargo">Cargo</label>
+                        <input type="text" id="cargo" name="cargo" placeholder="Tu cargo o rol">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="interes">Área de interés *</label>
+                    <select id="interes" name="interes" required>
+                        <option value="">Selecciona una opción</option>
+                        <option value="implementacion">Implementación Institucional</option>
+                        <option value="colaboracion">Colaboración Académica</option>
+                        <option value="desarrollo">Desarrollo Tecnológico</option>
+                        <option value="demo">Solicitar Demo</option>
+                        <option value="otro">Otro</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="mensaje">Mensaje *</label>
+                    <textarea id="mensaje" name="mensaje" rows="4" required placeholder="Cuéntanos sobre tu proyecto o interés en Servare..."></textarea>
+                </div>
+                
+                <div class="form-submit">
+                    <button type="submit" class="btn-submit">Enviar Mensaje</button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Servare Database Patrimonial. Todos los derechos reservados.</p>
+            <p style="margin-top: 0.5rem; font-size: 0.875rem; opacity: 0.6;">
+                Transformando la gestión del patrimonio cultural con tecnología inteligente.
+            </p>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="js/script.js?v=1.3"></script>
+    <script type="module" src="js/auth.js?v=1.1"></script>
+</body>
+</html>
