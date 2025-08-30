@@ -22,7 +22,10 @@ async function initAuth0() {
   if (auth0Client) return auth0Client;
   
   try {
-    const { createAuth0Client } = await import('https://cdn.auth0.com/js/auth0-spa-js/2.1/auth0-spa-js.production.js');
+    // Wait for Auth0 SDK to be available
+    if (typeof createAuth0Client === 'undefined') {
+      throw new Error('Auth0 SDK not loaded');
+    }
     
     auth0Client = await createAuth0Client({
       domain: AUTH0_CONFIG.domain,
