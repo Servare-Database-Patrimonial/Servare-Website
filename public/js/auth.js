@@ -64,7 +64,7 @@ async function initAuth0() {
   }
 }
 
-// Manejar login con Auth0
+// Manejar login con Auth0 - Redirección directa
 async function handleLogin(e) {
   if (e) e.preventDefault();
   
@@ -80,15 +80,23 @@ async function handleLogin(e) {
       }
     });
     
-    const client = await initAuth0();
+    // Construir URL de Auth0 manualmente para máxima compatibilidad
+    const redirectUri = encodeURIComponent(window.location.origin + '/app');
+    const state = Math.random().toString(36).substring(2, 15);
+    const nonce = Math.random().toString(36).substring(2, 15);
     
-    // Redirigir a Auth0 para login
-    await client.loginWithRedirect({
-      authorizationParams: {
-        redirect_uri: window.location.origin + '/app',
-        screen_hint: 'login'
-      }
-    });
+    const auth0URL = `https://${AUTH0_CONFIG.domain}/authorize?` +
+      `response_type=code&` +
+      `client_id=${AUTH0_CONFIG.clientId}&` +
+      `redirect_uri=${redirectUri}&` +
+      `scope=openid%20profile%20email&` +
+      `state=${state}&` +
+      `nonce=${nonce}`;
+    
+    console.log('🚀 Redirigiendo a Auth0...');
+    
+    // Redirigir directamente
+    window.location.href = auth0URL;
     
   } catch (error) {
     console.error('❌ Error en login Auth0:', error);
