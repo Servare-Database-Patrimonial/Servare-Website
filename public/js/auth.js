@@ -17,15 +17,35 @@ const AUTH0_CONFIG = {
 // Auth0 Web SDK
 let auth0Client = null;
 
+// Wait for Auth0 SDK to load
+function waitForAuth0SDK() {
+  return new Promise((resolve, reject) => {
+    let attempts = 0;
+    const maxAttempts = 50; // 5 seconds max
+    
+    const checkSDK = () => {
+      attempts++;
+      if (typeof window.createAuth0Client !== 'undefined') {
+        resolve(window.createAuth0Client);
+      } else if (attempts >= maxAttempts) {
+        reject(new Error('Auth0 SDK failed to load after 5 seconds'));
+      } else {
+        setTimeout(checkSDK, 100);
+      }
+    };
+    
+    checkSDK();
+  });
+}
+
 // Initialize Auth0
 async function initAuth0() {
   if (auth0Client) return auth0Client;
   
   try {
-    // Wait for Auth0 SDK to be available
-    if (typeof createAuth0Client === 'undefined') {
-      throw new Error('Auth0 SDK not loaded');
-    }
+    console.log('🔐 Waiting for Auth0 SDK...');
+    const createAuth0Client = await waitForAuth0SDK();
+    console.log('✅ Auth0 SDK loaded');
     
     auth0Client = await createAuth0Client({
       domain: AUTH0_CONFIG.domain,
