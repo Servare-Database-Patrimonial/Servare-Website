@@ -81,7 +81,7 @@ async function handleLogin(e) {
     });
     
     // Construir URL de Auth0 manualmente para máxima compatibilidad
-    const redirectUri = encodeURIComponent(window.location.origin + '/app');
+    const redirectUri = encodeURIComponent('https://app.servare.cloud');
     const state = Math.random().toString(36).substring(2, 15);
     const nonce = Math.random().toString(36).substring(2, 15);
     
