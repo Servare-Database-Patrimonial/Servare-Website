@@ -1,62 +1,131 @@
 # Servare Website
 
-Página web corporativa de Servare - Database Patrimonial con autenticación Auth0.
+Corporate website for Servare Database Patrimonial - Professional heritage management platform.
 
-## 🏗️ Arquitectura
+## 🌐 Live Website
 
-- **Sitio Web Principal**: Landing page corporativa estática  
-- **Autenticación**: Auth0 Universal Login
-- **Aplicación**: Redirige a servare.cloud/app después del login
+- **Production**: [servare.cloud](https://servare.cloud)
+- **Application**: [servare.cloud/app](https://servare.cloud/app)
 
-## 🚀 URLs de Producción
+## 🏗️ Architecture
 
-- **Sitio Web**: https://servare.cloud (GitHub Pages)
-- **Aplicación**: https://servare.cloud/app (Firebase Hosting)
+This is a **static corporate website** that serves as the marketing presence and entry point to the Servare React Native Web application.
 
-## 🔐 Flujo de Autenticación
+### Dual-Serving Pattern
+- **Website** (`/`) - Corporate landing page with features, methodology, and contact information
+- **App Access** (`/app`) - Redirects to the React Native Web application via Cloudflare rules
 
-1. Usuario entra a `servare.cloud`
-2. Presiona "Iniciar Sesión" 
-3. Redirige a Auth0 Universal Login
-4. Después del login → `servare.cloud/app`
+## ⚡ Quick Start
 
-## 📁 Estructura del Proyecto
-
-```
-public/                 # GitHub Pages deployment
-├── css/               # Estilos del sitio web
-├── js/                
-│   ├── auth.js        # Auth0 integration
-│   ├── config.js      # URLs y configuración
-│   └── script.js      # Funcionalidad del sitio
-├── images/            # Assets del sitio
-└── index.html         # Página principal
-```
-
-## 🛠️ Desarrollo Local
-
+### Development
 ```bash
 npm install
-npm run dev    # localhost:3001
+npm run dev
 ```
 
-## 🚀 Despliegue
+Access at: `http://localhost:3001`
 
+### Deployment
 ```bash
-git add .
-git commit -m "Update website"  
-git push origin main
+# Deploy to Netlify (primary)
+npm run deploy:netlify
+
+# Deploy to Vercel (alternative)
+npm run deploy:vercel
 ```
 
-GitHub Pages actualiza automáticamente.
+## 📁 Project Structure
 
-## ⚙️ Configuración Auth0
+```
+Servare-Website/
+├── public/                     # Static website files
+│   ├── index.html             # Main landing page
+│   ├── css/style.css          # Website styles
+│   ├── js/
+│   │   ├── config.js          # Environment configuration
+│   │   ├── script.js          # Website functionality
+│   │   └── auth.js            # Simplified auth redirects
+│   └── images/                # Website assets
+├── assets/logos/              # Brand logo system
+├── netlify.toml              # Netlify configuration
+├── vercel.json               # Vercel configuration
+└── package.json              # Dependencies
+```
 
-- **Domain**: dev-dysfldhoupz0fbe8.us.auth0.com
-- **Client ID**: 0kwrYniO2IjhdYrqPIOx2Aoc2N9jz6iv  
-- **Callback URL**: https://servare.cloud/app
+## 🔧 Configuration
 
-## 📞 Contacto
+### Environment URLs
+The website automatically adapts to development vs production:
+
+- **Development**: Redirects to `http://localhost:3000`
+- **Production**: Redirects to `servare.cloud/app` → Firebase hosting
+
+### Cloudflare Setup
+Production uses Cloudflare redirect rules:
+- `servare.cloud/app` → `https://servare-91966.web.app`
+
+## 🎯 Features
+
+### Corporate Website
+- Professional heritage management presentation
+- Methodology showcase
+- Contact information and collaboration opportunities
+- Responsive design for all devices
+
+### Authentication Integration
+- **Simplified Flow**: Direct redirect to React Native Web app
+- **No Auth0 SDK**: Optimized performance, no loading issues
+- **Seamless UX**: One-click access from website to authentication
+
+### SEO Optimized
+- Semantic HTML structure
+- Meta tags for social sharing
+- Structured data for heritage management
+- Fast loading static files
+
+## 🚀 Hosting
+
+### Primary: Netlify
+- **Domain**: servare.cloud
+- **Features**: Auto-deploy, custom headers, redirects
+- **Config**: `netlify.toml`
+
+### Alternative: Vercel
+- **Config**: `vercel.json`
+- **Features**: Edge functions, analytics
+
+## 📧 Contact Integration
 
 - **Email**: servare.dp@gmail.com
 - **LinkedIn**: @servare-database-patrimonial
+- **Location**: Santiago, Chile
+
+## 🏆 Achievements
+
+**All In Chile 2024 National Competition Winner**
+- Selected from 1,300+ innovative projects
+- National recognition for heritage technology innovation
+
+## ⚠️ Technical Notes
+
+### Current Status (August 31, 2025)
+- ✅ **Complete Auth0 migration**: Simplified authentication flow
+- ✅ **Performance optimized**: No Auth0 SDK loading issues
+- ✅ **Security enhanced**: Removed potential vulnerabilities
+- ✅ **Production ready**: Fully functional deployment
+
+### App Integration
+This website works in conjunction with the **Servare App-Web** project. The React Native Web build is hosted separately on Firebase and accessed via Cloudflare redirects.
+
+### Future Enhancements
+- **Microservices (E2)**: Planned architecture for enhanced scalability
+- **Advanced SEO**: Further search engine optimization
+- **Progressive Web App**: Enhanced mobile experience
+
+## 📚 Documentation
+
+For detailed development information, see `CLAUDE.md`.
+
+---
+
+**Business Context**: Servare transforms heritage management with intelligent technology and standardized methodologies, serving museums, archaeological sites, and cultural institutions worldwide.

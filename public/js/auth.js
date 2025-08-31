@@ -2,184 +2,52 @@
 // Maneja login y redirección a la aplicación
 
 console.log(`
-    🏛️  Servare Database Patrimonial - Auth0 Integration
+    🏛️  Servare Database Patrimonial - Simplified Auth
     
-    Autenticación centralizada con Auth0
-    Redirigiendo a la aplicación tras login exitoso
+    Redirigiendo a la aplicación para autenticación
 `);
 
-// Auth0 Configuration
-const AUTH0_CONFIG = {
-  domain: 'dev-dysfldhoupz0fbe8.us.auth0.com',
-  clientId: '0kwrYniO2IjhdYrqPIOx2Aoc2N9jz6iv'
-};
+// Sistema simplificado - sin Auth0 en el website
 
-// Auth0 Web SDK
-let auth0Client = null;
-
-// Wait for Auth0 SDK to load
-function waitForAuth0SDK() {
-  return new Promise((resolve, reject) => {
-    let attempts = 0;
-    const maxAttempts = 50; // 5 seconds max
-    
-    const checkSDK = () => {
-      attempts++;
-      if (typeof window.createAuth0Client !== 'undefined') {
-        resolve(window.createAuth0Client);
-      } else if (attempts >= maxAttempts) {
-        reject(new Error('Auth0 SDK failed to load after 5 seconds'));
-      } else {
-        setTimeout(checkSDK, 100);
-      }
-    };
-    
-    checkSDK();
-  });
-}
-
-// Initialize Auth0
-async function initAuth0() {
-  if (auth0Client) return auth0Client;
-  
-  try {
-    console.log('🔐 Waiting for Auth0 SDK...');
-    const createAuth0Client = await waitForAuth0SDK();
-    console.log('✅ Auth0 SDK loaded');
-    
-    auth0Client = await createAuth0Client({
-      domain: AUTH0_CONFIG.domain,
-      clientId: AUTH0_CONFIG.clientId,
-      authorizationParams: {
-        redirect_uri: window.location.origin + '/app',
-        scope: 'openid profile email'
-      }
-    });
-    
-    console.log('✅ Auth0 client initialized');
-    return auth0Client;
-  } catch (error) {
-    console.error('❌ Error initializing Auth0:', error);
-    throw error;
-  }
-}
-
-// Manejar login con Auth0 - Redirección directa
+// Redirigir directamente a la aplicación para login
 async function handleLogin(e) {
   if (e) e.preventDefault();
   
-  try {
-    console.log('🔐 Iniciando login con Auth0...');
-    
-    // Mostrar loading en todos los botones de login
-    const loginBtns = document.querySelectorAll('#login-btn, #app-access-btn, #login-submit-btn');
-    loginBtns.forEach(btn => {
-      if (btn) {
-        btn.disabled = true;
-        btn.textContent = 'Conectando con Auth0...';
-      }
-    });
-    
-    // Construir URL de Auth0 manualmente para máxima compatibilidad
-    const redirectUri = encodeURIComponent('https://servare-91966.web.app');
-    const state = Math.random().toString(36).substring(2, 15);
-    const nonce = Math.random().toString(36).substring(2, 15);
-    
-    const auth0URL = `https://${AUTH0_CONFIG.domain}/authorize?` +
-      `response_type=code&` +
-      `client_id=${AUTH0_CONFIG.clientId}&` +
-      `redirect_uri=${redirectUri}&` +
-      `scope=openid%20profile%20email&` +
-      `state=${state}&` +
-      `nonce=${nonce}`;
-    
-    console.log('🚀 Redirigiendo a Auth0...');
-    
-    // Redirigir directamente
-    window.location.href = auth0URL;
-    
-  } catch (error) {
-    console.error('❌ Error en login Auth0:', error);
-    
-    // Mostrar error
-    const errorMsg = `Error al conectar con Auth0: ${error.message}`;
-    alert(errorMsg);
-    
-    // Restaurar botones
-    const loginBtns = document.querySelectorAll('#login-btn, #app-access-btn, #login-submit-btn');
-    loginBtns.forEach(btn => {
-      if (btn) {
-        btn.disabled = false;
-        btn.textContent = btn.id === 'login-btn' ? 'Iniciar Sesión' : 'Acceder a la APP';
-      }
-    });
-  }
+  console.log('🚀 Redirigiendo directamente a la aplicación para login...');
+  window.location.href = 'https://servare.cloud/app';
 }
 
 // Función para redirigir directamente a la app (para botones que no requieren modal)
 async function redirectToApp() {
   console.log('🚀 Redirigiendo a la aplicación...');
-  await handleLogin();
+  window.location.href = 'https://servare.cloud/app';
 }
 
 // Funciones del modal (mantener compatibilidad)
 function openLoginModal() {
-  console.log('📱 Modal solicitado - redirigiendo directamente a Auth0');
-  handleLogin();
+  console.log('📱 Modal solicitado - redirigiendo a la app');
+  window.location.href = 'https://servare.cloud/app';
 }
 
 function closeLoginModal() {
   // No hacer nada - Auth0 maneja el flujo
 }
 
-// Verificar estado de sesión y actualizar interfaz
-async function checkAuthStatus() {
-  try {
-    const client = await initAuth0();
-    const isAuthenticated = await client.isAuthenticated();
-    
-    if (isAuthenticated) {
-      const user = await client.getUser();
-      console.log('✅ Usuario ya autenticado:', user.email);
-      
-      // Actualizar botones a "Acceder a la APP"
-      const loginBtns = document.querySelectorAll('#login-btn, #app-access-btn');
-      loginBtns.forEach(btn => {
-        if (btn) {
-          btn.textContent = 'Acceder a la APP';
-          btn.onclick = () => {
-            console.log('🚀 Usuario autenticado, redirigiendo a la app...');
-            window.location.href = 'https://servare-91966.web.app';
-          };
-        }
-      });
-      
-      // Agregar botón de perfil en el header
-      addProfileButton(user);
-      
-      return { isAuthenticated: true, user };
-    }
-    return { isAuthenticated: false, user: null };
-  } catch (error) {
-    console.log('⚠️ Error verificando estado de auth:', error);
-    return { isAuthenticated: false, user: null };
-  }
+// Estado de sesión simplificado
+function checkAuthStatus() {
+  console.log('🔍 Estado de sesión simplificado - siempre mostrar login');
+  return { isAuthenticated: false, user: null };
 }
 
 // Inicialización cuando el DOM esté listo
-document.addEventListener('DOMContentLoaded', async function() {
-  console.log('📱 DOM loaded - Configurando Auth0...');
+document.addEventListener('DOMContentLoaded', function() {
+  console.log('📱 DOM loaded - Modo simplificado: todos los botones redirigen a la app');
   
-  // Verificar estado de autenticación primero
-  const authStatus = await checkAuthStatus();
-  
-  if (!authStatus.isAuthenticated) {
-    // Solo configurar login si no está autenticado
-    const loginBtn = document.getElementById('login-btn');
-    if (loginBtn) {
-      loginBtn.addEventListener('click', handleLogin);
-      console.log('✅ Botón "Iniciar Sesión" conectado');
-    }
+  // Conectar botón "Iniciar Sesión"
+  const loginBtn = document.getElementById('login-btn');
+  if (loginBtn) {
+    loginBtn.addEventListener('click', handleLogin);
+    console.log('✅ Botón "Iniciar Sesión" conectado');
   }
   
   // Conectar botón "Acceder a la APP" (si existe)
@@ -203,7 +71,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     console.log('✅ Botón submit conectado');
   }
   
-  console.log('🔐 Auth0 system ready');
+  console.log('🔐 Sistema simplificado listo - todos los botones redirigen a /app');
 });
 
 // Exportar funciones para uso global
@@ -268,7 +136,7 @@ function showProfileModal(user) {
       </div>
       
       <div class="profile-actions">
-        <button class="btn-secondary" onclick="window.location.href='https://servare-91966.web.app'">
+        <button class="btn-secondary" onclick="window.location.href='https://servare.cloud/app'">
           🚀 Ir a la Aplicación
         </button>
         <button class="btn-danger" onclick="handleLogout()">
