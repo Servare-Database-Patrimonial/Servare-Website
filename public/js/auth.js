@@ -132,15 +132,54 @@ function closeLoginModal() {
   // No hacer nada - Auth0 maneja el flujo
 }
 
+// Verificar estado de sesión y actualizar interfaz
+async function checkAuthStatus() {
+  try {
+    const client = await initAuth0();
+    const isAuthenticated = await client.isAuthenticated();
+    
+    if (isAuthenticated) {
+      const user = await client.getUser();
+      console.log('✅ Usuario ya autenticado:', user.email);
+      
+      // Actualizar botones a "Acceder a la APP"
+      const loginBtns = document.querySelectorAll('#login-btn, #app-access-btn');
+      loginBtns.forEach(btn => {
+        if (btn) {
+          btn.textContent = 'Acceder a la APP';
+          btn.onclick = () => {
+            console.log('🚀 Usuario autenticado, redirigiendo a la app...');
+            window.location.href = 'https://servare-91966.web.app';
+          };
+        }
+      });
+      
+      // Agregar botón de perfil en el header
+      addProfileButton(user);
+      
+      return { isAuthenticated: true, user };
+    }
+    return { isAuthenticated: false, user: null };
+  } catch (error) {
+    console.log('⚠️ Error verificando estado de auth:', error);
+    return { isAuthenticated: false, user: null };
+  }
+}
+
 // Inicialización cuando el DOM esté listo
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', async function() {
   console.log('📱 DOM loaded - Configurando Auth0...');
   
-  // Conectar botón principal "Iniciar Sesión"
-  const loginBtn = document.getElementById('login-btn');
-  if (loginBtn) {
-    loginBtn.addEventListener('click', handleLogin);
-    console.log('✅ Botón "Iniciar Sesión" conectado');
+  // Verificar estado de autenticación primero
+  const authStatus = await checkAuthStatus();
+  
+  if (!authStatus.isAuthenticated) {
+    // Solo configurar login si no está autenticado
+    const loginBtn = document.getElementById('login-btn');
+    if (loginBtn) {
+      loginBtn.addEventListener('click', handleLogin);
+      console.log('✅ Botón "Iniciar Sesión" conectado');
+    }
   }
   
   // Conectar botón "Acceder a la APP" (si existe)
@@ -172,6 +211,119 @@ window.handleLogin = handleLogin;
 window.redirectToApp = redirectToApp;
 window.openLoginModal = openLoginModal;
 window.closeLoginModal = closeLoginModal;
+
+// Agregar botón de perfil al header
+function addProfileButton(user) {
+  const header = document.querySelector('header .container');
+  if (header && !document.getElementById('profile-btn')) {
+    const profileBtn = document.createElement('button');
+    profileBtn.id = 'profile-btn';
+    profileBtn.className = 'profile-btn';
+    profileBtn.innerHTML = `
+      <img src="${user.picture || 'https://via.placeholder.com/32'}" alt="Perfil" class="profile-avatar">
+      <span>${user.name || user.email}</span>
+    `;
+    profileBtn.onclick = () => showProfileModal(user);
+    header.appendChild(profileBtn);
+  }
+}
+
+// Mostrar modal de perfil
+function showProfileModal(user) {
+  const modal = document.createElement('div');
+  modal.id = 'profile-modal';
+  modal.className = 'modal profile-modal';
+  modal.innerHTML = `
+    <div class="modal-content profile-content">
+      <span class="close-profile" onclick="closeProfileModal()">&times;</span>
+      
+      <div class="profile-header">
+        <img src="${user.picture || 'https://via.placeholder.com/80'}" alt="Avatar" class="profile-avatar-large">
+        <h2>${user.name || user.email}</h2>
+        <p class="profile-email">${user.email}</p>
+      </div>
+      
+      <div class="profile-info">
+        <div class="profile-field">
+          <label>Nombre de usuario:</label>
+          <span>${user.nickname || user.name || 'No especificado'}</span>
+        </div>
+        
+        <div class="profile-field">
+          <label>Email verificado:</label>
+          <span class="${user.email_verified ? 'verified' : 'unverified'}">
+            ${user.email_verified ? '✅ Verificado' : '⚠️ No verificado'}
+          </span>
+        </div>
+        
+        <div class="profile-field">
+          <label>Última actualización:</label>
+          <span>${new Date(user.updated_at).toLocaleDateString('es-ES')}</span>
+        </div>
+        
+        <div class="profile-field">
+          <label>Proveedor de autenticación:</label>
+          <span>🔒 Auth0</span>
+        </div>
+      </div>
+      
+      <div class="profile-actions">
+        <button class="btn-secondary" onclick="window.location.href='https://servare-91966.web.app'">
+          🚀 Ir a la Aplicación
+        </button>
+        <button class="btn-danger" onclick="handleLogout()">
+          🚪 Cerrar Sesión
+        </button>
+      </div>
+    </div>
+  `;
+  
+  document.body.appendChild(modal);
+  modal.style.display = 'block';
+}
+
+// Cerrar modal de perfil
+function closeProfileModal() {
+  const modal = document.getElementById('profile-modal');
+  if (modal) {
+    modal.remove();
+  }
+}
+
+// Manejar logout
+async function handleLogout() {
+  try {
+    console.log('🚪 Cerrando sesión...');
+    
+    const client = await initAuth0();
+    await client.logout({
+      logoutParams: {
+        returnTo: window.location.origin
+      }
+    });
+    
+    // Remover elementos de usuario autenticado
+    const profileBtn = document.getElementById('profile-btn');
+    if (profileBtn) profileBtn.remove();
+    
+    closeProfileModal();
+    
+    // Restaurar botones de login
+    const loginBtns = document.querySelectorAll('#login-btn, #app-access-btn');
+    loginBtns.forEach(btn => {
+      if (btn) {
+        btn.textContent = btn.id === 'login-btn' ? 'Iniciar Sesión' : 'Acceder a la APP';
+        btn.onclick = handleLogin;
+      }
+    });
+    
+    console.log('✅ Sesión cerrada exitosamente');
+    
+  } catch (error) {
+    console.error('❌ Error al cerrar sesión:', error);
+    alert('Error al cerrar sesión. Intenta de nuevo.');
+  }
+}
 
 // Estado del usuario (simplificado para Auth0)
 let currentUser = null;

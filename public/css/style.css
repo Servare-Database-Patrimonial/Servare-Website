@@ -997,6 +997,220 @@ body {
   }
 }
 
+/* Profile Button and Modal Styles */
+.profile-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--servare-white);
+    border: 2px solid var(--servare-primary);
+    border-radius: 2rem;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    color: var(--servare-primary);
+    margin-left: 1rem;
+}
+
+.profile-btn:hover {
+    background: var(--servare-primary);
+    color: var(--servare-white);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+.profile-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--servare-primary);
+}
+
+/* Profile Modal */
+.profile-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: none;
+    z-index: 1000;
+    animation: fadeIn 0.3s ease;
+}
+
+.profile-content {
+    position: relative;
+    background-color: var(--servare-white);
+    margin: 5% auto;
+    padding: 0;
+    width: 90%;
+    max-width: 500px;
+    border-radius: 1rem;
+    box-shadow: var(--shadow-lg);
+    overflow: hidden;
+    animation: slideIn 0.3s ease;
+}
+
+.close-profile {
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--servare-light);
+    cursor: pointer;
+    z-index: 1001;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+.close-profile:hover {
+    color: var(--servare-primary);
+    background-color: var(--servare-cream);
+}
+
+.profile-header {
+    background: linear-gradient(135deg, var(--servare-primary), var(--servare-secondary));
+    color: var(--servare-white);
+    text-align: center;
+    padding: 2rem;
+    position: relative;
+}
+
+.profile-avatar-large {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid var(--servare-white);
+    margin-bottom: 1rem;
+}
+
+.profile-header h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.profile-email {
+    margin: 0.5rem 0 0 0;
+    opacity: 0.9;
+    font-size: 0.9rem;
+}
+
+.profile-info {
+    padding: 2rem;
+}
+
+.profile-field {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid #E5E7EB;
+}
+
+.profile-field:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+.profile-field label {
+    font-weight: 600;
+    color: var(--servare-dark);
+    font-size: 0.9rem;
+}
+
+.profile-field span {
+    color: var(--servare-light);
+    font-size: 0.9rem;
+}
+
+.verified {
+    color: var(--servare-secondary) !important;
+    font-weight: 600;
+}
+
+.unverified {
+    color: var(--servare-accent) !important;
+    font-weight: 600;
+}
+
+.profile-actions {
+    padding: 2rem;
+    border-top: 1px solid #E5E7EB;
+    display: flex;
+    gap: 1rem;
+}
+
+.btn-secondary {
+    background-color: var(--servare-cream);
+    color: var(--servare-primary);
+    border: 2px solid var(--servare-primary);
+    flex: 1;
+}
+
+.btn-secondary:hover {
+    background-color: var(--servare-primary);
+    color: var(--servare-white);
+}
+
+.btn-danger {
+    background-color: #DC2626;
+    color: var(--servare-white);
+    border: 2px solid #DC2626;
+    flex: 1;
+}
+
+.btn-danger:hover {
+    background-color: #B91C1C;
+    border-color: #B91C1C;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideIn {
+    from { transform: translateY(-50px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+/* Responsive para perfil */
+@media (max-width: 768px) {
+    .profile-btn {
+        margin-left: 0.5rem;
+        padding: 0.4rem 0.8rem;
+        font-size: 0.9rem;
+    }
+    
+    .profile-btn span {
+        display: none;
+    }
+    
+    .profile-content {
+        width: 95%;
+        margin: 10% auto;
+    }
+    
+    .profile-actions {
+        flex-direction: column;
+    }
+}
+
 /* Scroll suave */
 html {
     scroll-behavior: smooth;
