@@ -14,19 +14,19 @@ async function handleLogin(e) {
   if (e) e.preventDefault();
   
   console.log('🚀 Redirigiendo directamente a la aplicación para login...');
-  window.location.href = 'https://servare.cloud/app';
+  window.location.href = 'https://servare-91966.web.app';
 }
 
 // Función para redirigir directamente a la app (para botones que no requieren modal)
 async function redirectToApp() {
   console.log('🚀 Redirigiendo a la aplicación...');
-  window.location.href = 'https://servare.cloud/app';
+  window.location.href = 'https://servare-91966.web.app';
 }
 
 // Funciones del modal (mantener compatibilidad)
 function openLoginModal() {
   console.log('📱 Modal solicitado - redirigiendo a la app');
-  window.location.href = 'https://servare.cloud/app';
+  window.location.href = 'https://servare-91966.web.app';
 }
 
 function closeLoginModal() {

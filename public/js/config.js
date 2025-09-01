@@ -5,7 +5,7 @@ const SERVARE_CONFIG = {
     // URL de la aplicación (cambiar según el entorno)
     APP_URL: window.location.hostname === 'localhost'
         ? 'http://localhost:3000'
-        : 'https://servare.cloud/app',
+        : 'https://servare-91966.web.app',
     
     // URL de la página web
     WEBSITE_URL: window.location.hostname === 'localhost'
