@@ -24,13 +24,15 @@ The development server will run at:
 
 ### Deployment
 ```bash
-# Deploy to Netlify (primary hosting)
-npm run deploy:netlify
+# Deploy website to GitHub Pages
+git add .
+git commit -m "Update website"
+git push origin main
 
-# Deploy to Vercel (alternative)
-npm run deploy:vercel
-
-# Manual deployment: upload public/ folder to any static hosting service
+# Deploy app to Firebase Hosting
+cd "../Servare App-Web"
+npm run build:web
+firebase deploy --only hosting
 ```
 
 ## 🏗️ Project Architecture
@@ -43,7 +45,8 @@ This is a **static corporate website** that serves two purposes:
 ### Technology Stack
 - **Static HTML/CSS/JavaScript** - No build process required
 - **Live Server** for development
-- **Static hosting** (Netlify, Vercel, Firebase Hosting)
+- **GitHub Pages** for website hosting
+- **Firebase Hosting** for app hosting
 
 ### Dual Architecture Pattern
 The project implements a **dual-serving architecture**:
@@ -91,9 +94,8 @@ const SERVARE_CONFIG = {
 **Important**: This file automatically handles development vs production URLs and manages navigation between the website and the app.
 
 ### Deployment Configurations
-- **netlify.toml**: Redirects and headers for Netlify hosting
-- **vercel.json**: Configuration for Vercel deployment  
-- **firebase.json**: Firebase Hosting setup (if using Firebase)
+- **firebase.json**: Firebase Hosting setup for React Native Web app
+- **CNAME**: GitHub Pages custom domain configuration
 
 ## 🎯 Website Functionality
 
@@ -142,14 +144,23 @@ The website includes a complete logo system in `assets/logos/`:
 
 ## 🚀 Hosting and Production
 
-### Primary Hosting: Netlify
-- **Domain**: https://servare.cloud
-- **Features**: Automatic deploys, custom headers, redirects
-- **Configuration**: `netlify.toml`
+### Website Hosting: GitHub Pages + Cloudflare
+- **Domain**: https://servare.cloud (DNS managed by Cloudflare)
+- **Hosting**: GitHub Pages with custom domain
+- **Configuration**: `CNAME` file + Cloudflare DNS settings
+
+### App Hosting: Firebase Hosting
+- **Domain**: https://servare-91966.web.app
+- **Features**: Static hosting for React Native Web build
+- **Configuration**: `firebase.json`
+
+### Cloudflare Configuration
+- **DNS**: Points `servare.cloud` to GitHub Pages
+- **Redirect Rules**: Should redirect `servare.cloud/app` → `servare-91966.web.app`
 
 ### Production URLs
-- **Website**: https://servare.cloud
-- **Application**: https://servare.cloud/app
+- **Website**: https://servare.cloud (GitHub Pages via Cloudflare)
+- **Application**: https://servare-91966.web.app (Firebase Hosting)
 
 ### Custom Domain Setup
 The website is configured for the `servare.cloud` domain with proper:
