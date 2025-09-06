@@ -2,8 +2,15 @@
 
 This file tracks the dynamic state, priorities, and future development roadmap for Servare-Website.
 
-**Last Updated**: August 30, 2025  
-**Current Status**: Fully Functional Corporate Website with App Integration
+**Last Updated**: September 2, 2025  
+**Current Status**: Fully Functional Corporate Website with App Integration | **FUSIÓN CON ROADMAP GENERAL COMPLETADA**
+
+## 📋 **REGLAS DE ACTUALIZACIÓN DE ROADMAP**
+- ✅ **Regla Principal**: Este CLAUDE_ROADMAP.md debe actualizarse SIEMPRE en cada sesión
+- ✅ **Conservar Historia**: NUNCA borrar elementos implementados ni características pendientes
+- ✅ **Actualizar Estados**: Solo cambiar estados (pendiente → en progreso → completado)
+- ✅ **Agregar Nuevos**: Incorporar nuevos elementos según surjan en las sesiones
+- ✅ **Fusión Completada**: Elementos del ROADMAP.md general integrados (Sept 2, 2025)
 
 ---
 
@@ -33,6 +40,14 @@ This file tracks the dynamic state, priorities, and future development roadmap f
 - ✅ **Alternative Deployments**: Vercel and Firebase Hosting configured
 - ✅ **Custom Domain**: Professional domain with SSL certificates
 - ✅ **CDN Optimization**: Fast global content delivery
+
+### 🔒 **FUSIÓN: Auth0 Integration System (Completado Agosto 31, 2025)**
+- ✅ **Complete Auth0 Migration**: From Firebase Auth to Auth0 Universal Login
+- ✅ **Security Breach Resolution**: Firebase API key security issue resolved
+- ✅ **Cross-Platform Authentication**: Seamless integration between website and app
+- ✅ **Profile Management**: User profile modal with Auth0 data integration
+- ✅ **Session Detection**: Automatic Auth0 session detection on page load
+- ✅ **Production Ready**: Secure, optimized authentication system deployed
 
 ---
 
