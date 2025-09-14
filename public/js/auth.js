@@ -43,11 +43,18 @@ function checkAuthStatus() {
 document.addEventListener('DOMContentLoaded', function() {
   console.log('📱 DOM loaded - Modo simplificado: todos los botones redirigen a la app');
   
-  // Conectar botón "Iniciar Sesión"
+  // Conectar botón "Iniciar Sesión" del header
   const loginBtn = document.getElementById('login-btn');
   if (loginBtn) {
     loginBtn.addEventListener('click', handleLogin);
-    console.log('✅ Botón "Iniciar Sesión" conectado');
+    console.log('✅ Botón "Iniciar Sesión" del header conectado');
+  }
+  
+  // Conectar botón "Iniciar Sesión" del hero
+  const heroLoginBtn = document.getElementById('hero-login-btn');
+  if (heroLoginBtn) {
+    heroLoginBtn.addEventListener('click', handleLogin);
+    console.log('✅ Botón "Iniciar Sesión" del hero conectado');
   }
   
   // Conectar botón "Acceder a la APP" (si existe)
@@ -55,6 +62,27 @@ document.addEventListener('DOMContentLoaded', function() {
   if (appAccessBtn) {
     appAccessBtn.addEventListener('click', redirectToApp);
     console.log('✅ Botón "Acceder a la APP" conectado');
+  }
+  
+  // Conectar botón del hero "Acceder a la APP" (si existe)
+  const heroAppBtn = document.getElementById('hero-app-btn');
+  if (heroAppBtn) {
+    heroAppBtn.addEventListener('click', redirectToApp);
+    console.log('✅ Botón "Acceder a la APP" del hero conectado');
+  }
+  
+  // Conectar botón de la sección app "Iniciar Sesión para Acceder"
+  const appSectionLogin = document.getElementById('app-section-login');
+  if (appSectionLogin) {
+    appSectionLogin.addEventListener('click', handleLogin);
+    console.log('✅ Botón "Iniciar Sesión para Acceder" conectado');
+  }
+  
+  // Conectar botón de la sección app "Acceder a la APP"
+  const appSectionBtn = document.getElementById('app-section-btn');
+  if (appSectionBtn) {
+    appSectionBtn.addEventListener('click', redirectToApp);
+    console.log('✅ Botón "Acceder a la APP" de sección conectado');
   }
   
   // Conectar formulario de login modal (si existe)
