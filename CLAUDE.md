@@ -169,12 +169,35 @@ The website is configured for the `servare.cloud` domain with proper:
 - SEO meta tags
 - Performance optimizations
 
-## 📧 Contact Integration
+## 📧 Contact Integration (Updated September 13, 2025)
 
 ### Contact Information
-- **Email**: servare.dp@gmail.com  
-- **LinkedIn**: @servare-database-patrimonial
+- **Email**: servare.dp@gmail.com (EmailJS delivery configured)
+- **LinkedIn**: @servare-database-patrimonial (with official LinkedIn SVG logo)
 - **Location**: Santiago, Chile
+
+### EmailJS Configuration
+```javascript
+const EMAIL_CONFIG = {
+    SERVICE_ID: 'service_ben531s',      // Configured service
+    TEMPLATE_ID: 'template_j2qufea',    // Email template
+    PUBLIC_KEY: 'ywSkpDeLSkQmNjMxF'     // Public key
+};
+```
+
+### Email Categories and Professional Areas
+**Contact Categories (5):**
+- Implementación Institucional (🔴 Alta Prioridad)
+- Colaboración Académica (🟡 Media Prioridad)
+- Apoyo y Patrocinio (🟢 Alta Prioridad)
+- Acceso a Beta (🔴 Alta Prioridad) - NEW
+- Solicitud Demo (🔴 Alta Prioridad)
+- Consulta General (🟡 Media Prioridad)
+
+**Professional Areas (8):**
+- Arqueología, Museos, Conservación y Restauración
+- Archivos, Paleontología, Gestión Cultural
+- Investigación, Educación, Otro (especificado)
 
 ### Contact Form
 The website includes a functional contact form (`#contact-form`) with:
