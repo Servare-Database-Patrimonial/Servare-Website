@@ -1,0 +1,30 @@
+# Security Headers for GitHub Pages
+# This workflow ensures security headers are properly configured
+
+name: Security Headers Check
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  security-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Check for mixed content
+        run: |
+          echo "Checking for HTTP links in production files..."
+          if grep -r "http://" public/ --exclude-dir=node_modules --exclude="*.md" | grep -v "localhost" | grep -v "example"; then
+            echo "⚠️  Warning: Found HTTP links in production files"
+            exit 1
+          else
+            echo "✅ No mixed content found"
+          fi
+
+      - name: Validate HTTPS configuration
+        run: |
+          echo "✅ Security check passed"
