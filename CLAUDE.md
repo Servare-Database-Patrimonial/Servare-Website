@@ -83,7 +83,7 @@ PUBLIC_KEY: 'ywSkpDeLSkQmNjMxF'
 ## Deployment
 
 **Website**: Edit `public/` → run `./sync-docs.sh` → push `main` → GitHub Pages (from `/docs`) → `servare.cloud`
-**App**: Separate deploy from Servare App-Web → Firebase Hosting → `servare-91966.web.app`
+**App**: Separate deploy from Servare App-Web → Firebase Hosting → `app.servare.cloud`
 **Cloudflare**: `servare.cloud/app` redirects to Firebase app hosting
 **Logo**: Dual logos — `servare-logo-light.png` (dark text, light mode) / `servare-logo-dark.png` (white text, dark mode). Uses `.show-light`/`.show-dark` classes, no CSS filter.
 
