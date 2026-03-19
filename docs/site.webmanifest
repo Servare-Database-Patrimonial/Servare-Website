@@ -1,0 +1,26 @@
+{
+  "name": "Servare - Database Patrimonial",
+  "short_name": "Servare",
+  "description": "Transformamos la gestión del patrimonio cultural con tecnología inteligente",
+  "icons": [
+    {
+      "src": "favicon-16x16.png",
+      "sizes": "16x16",
+      "type": "image/png"
+    },
+    {
+      "src": "favicon-32x32.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ],
+  "theme_color": "#1E3A8A",
+  "background_color": "#F9FAFB",
+  "display": "standalone",
+  "start_url": "/"
+}

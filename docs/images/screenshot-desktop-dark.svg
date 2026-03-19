@@ -1,0 +1,5 @@
+<svg xmlns='http://www.w3.org/2000/svg' width='800' height='500' viewBox='0 0 800 500'>
+  <rect width='800' height='500' fill='#1A1816'/>
+  <text x='400' y='240' text-anchor='middle' fill='rgba(245,245,244,0.7)' font-family='sans-serif' font-size='20' font-weight='700'>Screenshot Desktop — Dark</text>
+  <text x='400' y='270' text-anchor='middle' fill='rgba(245,245,244,0.4)' font-family='sans-serif' font-size='12'>Reemplazar con captura real</text>
+</svg>

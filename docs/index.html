@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Servare — Patrimonio cultural, gestión digital</title>
+  <meta name="description" content="Plataforma de registro, análisis y conservación patrimonial. Gestión digital del patrimonio cultural.">
+  <meta name="keywords" content="patrimonio, conservación, restauración, arqueología, museos, gestión cultural, tecnología patrimonial">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Servare — Patrimonio cultural, gestión digital">
+  <meta property="og:description" content="Plataforma de registro, análisis y conservación patrimonial.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://servare.cloud">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="images/IsotipoColor.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="images/IsotipoColor.png">
+  <meta name="theme-color" content="#1E3A8A">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap" rel="stylesheet">
+
+  <!-- CSS (modular) -->
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/nav.css">
+  <link rel="stylesheet" href="css/sections.css">
+  <link rel="stylesheet" href="css/contact.css">
+  <link rel="stylesheet" href="css/footer.css">
+
+  <!-- Config + Nav (loaded early for onclick handlers) -->
+  <script src="js/config.js"></script>
+  <script src="js/nav.js"></script>
+</head>
+<body>
+
+<!-- FLOATING NAV -->
+<nav class="floating-nav">
+  <a href="#sec0" class="logo">
+    <img class="show-light" src="images/servare-logo-light.png" alt="Servare">
+    <img class="show-dark" src="images/servare-logo-dark.png" alt="Servare">
+  </a>
+  <button class="hamburger" id="hamburgerBtn" onclick="toggleMenu()" aria-label="Abrir menú">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- FULLSCREEN MENU OVERLAY -->
+<div class="menu-overlay" id="menuOverlay">
+  <ul class="menu-links">
+    <li><a href="#sec0" onclick="toggleMenu()">Inicio</a></li>
+    <li><a href="en-desarrollo.html" onclick="toggleMenu()">Biblioteca</a></li>
+    <li><a href="en-desarrollo.html" onclick="toggleMenu()">Repositorio</a></li>
+    <li><a href="#" onclick="toggleMenu(); redirectToApp(event);" class="menu-cta">Beta Cerrada</a></li>
+    <li>
+      <button class="menu-theme-toggle" onclick="toggleTheme()" aria-label="Cambiar tema">
+        <span class="icon-sun"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg></span>
+        <span class="icon-moon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></span>
+      </button>
+    </li>
+  </ul>
+</div>
+
+<!-- SIDE DOTS -->
+<div class="side-dots" id="sideDots">
+  <button class="dot active" onclick="scrollToSection(0)" aria-label="Ir a inicio"></button>
+  <button class="dot" onclick="scrollToSection(1)" aria-label="Ir a por qué Servare"></button>
+  <button class="dot" onclick="scrollToSection(2)" aria-label="Ir a solución"></button>
+  <button class="dot" onclick="scrollToSection(3)" aria-label="Ir a herramientas"></button>
+  <button class="dot" onclick="scrollToSection(4)" aria-label="Ir a equipo"></button>
+  <button class="dot" onclick="scrollToSection(5)" aria-label="Ir a CTA"></button>
+  <button class="dot" onclick="scrollToSection(6)" aria-label="Ir a contacto"></button>
+</div>
+
+<!-- SECTION 1: HERO -->
+<section class="snap-section hero-section" id="sec0">
+  <div class="hero-content">
+    <h1 class="fade-in" style="text-transform: uppercase; letter-spacing: 0.08em;">Patrimonio cultural,<br>gestión digital</h1>
+    <p class="hero-subtitle fade-in">Plataforma de registro, análisis y conservación patrimonial</p>
+  </div>
+  <div class="scroll-indicator">
+    <span>Scroll</span>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M12 5v14M5 12l7 7 7-7"/>
+    </svg>
+  </div>
+</section>
+
+<!-- SECTION 2: POR QUE SERVARE -->
+<section class="snap-section propuesta-section" id="sec1">
+  <div class="propuesta-inner">
+    <div class="propuesta-quote fade-in">"Lo que no se documenta, desaparece."</div>
+    <p class="propuesta-text fade-in">
+      Servare nació en el desierto de Atacama, después de años documentando patrimonio con métodos manuales.
+      Sabemos lo que duele perder información. Por eso creamos la herramienta que siempre necesitamos.
+    </p>
+    <!-- Label separador -->
+    <div class="problems-label fade-in">
+      <span class="problems-label-line"></span>
+      <span class="problems-label-text">Los problemas que resuelve · Pasa el cursor para ver la solución</span>
+      <span class="problems-label-line"></span>
+    </div>
+
+    <!-- FLIP CARDS -->
+    <div class="flip-grid">
+      <div class="flip-card fade-in" tabindex="0" aria-label="Tiempo perdido — ver solución">
+        <div class="flip-card__inner">
+          <div class="flip-card__front">
+            <span class="flip-card__front-stat" aria-hidden="true">40%</span>
+            <div class="flip-card__front-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" width="20" height="20">
+                <circle cx="12" cy="12" r="9" stroke-width="1.5"/>
+                <path d="M12 7v5l3 3" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <span class="flip-card__front-tag">Problema 01</span>
+            <h3 class="flip-card__front-title">Tiempo perdido</h3>
+            <p class="flip-card__front-body">El 40% del trabajo de campo se convierte en transcripción manual.</p>
+            <span class="flip-card__hint" aria-hidden="true">
+              <svg viewBox="0 0 12 12" fill="none"><path d="M2 6h8M7 3l3 3-3 3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Ver solución
+            </span>
+          </div>
+          <div class="flip-card__back">
+            <div class="flip-card__back-content">
+              <span class="flip-card__back-tag">
+                <svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5l2.5 2.5 5.5-5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                Solución Servare
+              </span>
+              <p class="flip-card__back-body">Los datos se capturan <strong>digitalmente en terreno</strong>, sin dobles tareas. Lo que registras en campo queda directamente en la plataforma.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flip-card fade-in" tabindex="0" aria-label="Documentación dispersa — ver solución">
+        <div class="flip-card__inner">
+          <div class="flip-card__front">
+            <span class="flip-card__front-stat" aria-hidden="true">N+1</span>
+            <div class="flip-card__front-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" width="20" height="20">
+                <path d="M3 8a2 2 0 012-2h4l2 2h8a2 2 0 012 2v7a2 2 0 01-2 2H5a2 2 0 01-2-2V8z" stroke-width="1.5" stroke-linejoin="round"/>
+                <path d="M7 8V6a1 1 0 011-1h2" stroke-width="1.3" stroke-linecap="round" stroke-dasharray="2 2"/>
+              </svg>
+            </div>
+            <span class="flip-card__front-tag">Problema 02</span>
+            <h3 class="flip-card__front-title">Documentación dispersa</h3>
+            <p class="flip-card__front-body">Cuadernos, fotos sueltas, Excel, Word. Imposible de buscar o compartir.</p>
+            <span class="flip-card__hint" aria-hidden="true">
+              <svg viewBox="0 0 12 12" fill="none"><path d="M2 6h8M7 3l3 3-3 3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Ver solución
+            </span>
+          </div>
+          <div class="flip-card__back">
+            <div class="flip-card__back-content">
+              <span class="flip-card__back-tag">
+                <svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5l2.5 2.5 5.5-5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                Solución Servare
+              </span>
+              <p class="flip-card__back-body"><strong>Todo centralizado</strong> en una plataforma, con buscador avanzado y acceso multiusuario. Desde cualquier dispositivo, en cualquier lugar.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flip-card fade-in" tabindex="0" aria-label="Sin estándar — ver solución">
+        <div class="flip-card__inner">
+          <div class="flip-card__front">
+            <span class="flip-card__front-stat" aria-hidden="true">∅</span>
+            <div class="flip-card__front-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" width="20" height="20">
+                <rect x="3" y="8" width="18" height="8" rx="1.5" stroke-width="1.5"/>
+                <path d="M7 8v3M10 8v2M13 8v3M16 8v2" stroke-width="1.3" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <span class="flip-card__front-tag">Problema 03</span>
+            <h3 class="flip-card__front-title">Sin estándar</h3>
+            <p class="flip-card__front-body">Cada profesional registra distinto. No hay metodología compartida.</p>
+            <span class="flip-card__hint" aria-hidden="true">
+              <svg viewBox="0 0 12 12" fill="none"><path d="M2 6h8M7 3l3 3-3 3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Ver solución
+            </span>
+          </div>
+          <div class="flip-card__back">
+            <div class="flip-card__back-content">
+              <span class="flip-card__back-tag">
+                <svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5l2.5 2.5 5.5-5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                Solución Servare
+              </span>
+              <p class="flip-card__back-body"><strong>Formularios inteligentes</strong> que unifican criterios y garantizan consistencia entre todos los profesionales del equipo.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Story CTA -->
+    <div class="story-cta fade-in">
+      <p class="story-cta-text">
+        Hoy, <strong>instituciones patrimoniales de todo Chile</strong> usan Servare para registrar, analizar y conservar sus colecciones de forma digital.
+      </p>
+      <a href="#sec6" class="btn-green-pill">Únete a la transformación</a>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 3: LO QUE HACE SERVARE -->
+<section class="snap-section solucion-section" id="sec2">
+  <div class="solucion-inner">
+    <div class="solucion-header fade-in">
+      <h2>Todo el patrimonio, un solo sistema</h2>
+      <p class="solucion-subtitle">
+        Desde el ingreso del objeto hasta su préstamo internacional — cada proceso de conservación conectado, trazado y disponible en tiempo real.
+      </p>
+    </div>
+    <div class="cap-cards-section">
+
+      <!-- 2 funciones principales -->
+      <div class="cap-featured-grid">
+        <article class="cap-card--featured fade-in" data-index="01">
+          <span class="cap-card__badge">Función principal</span>
+          <div class="cap-card__icon-box" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none"><rect x="4" y="3" width="13" height="17" rx="2" stroke="var(--amber)" stroke-width="1.6"/><path d="M8 8h6M8 12h6M8 16h4" stroke="var(--amber)" stroke-width="1.4" stroke-linecap="round"/><path d="M17 7h1a2 2 0 012 2v10a2 2 0 01-2 2H8" stroke="var(--text-muted)" stroke-width="1.3" stroke-linecap="round" stroke-dasharray="2 2"/></svg>
+          </div>
+          <h3 class="cap-card__title">Registro de colecciones</h3>
+          <p class="cap-card__desc">Formularios especializados que unifican metodologías y facilitan el levantamiento de información. Cada objeto, catalogado con estándar museográfico desde el primer ingreso.</p>
+        </article>
+
+        <article class="cap-card--featured fade-in" data-index="02">
+          <span class="cap-card__badge">Función principal</span>
+          <div class="cap-card__icon-box" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none"><circle cx="5" cy="6" r="2" stroke="var(--amber)" stroke-width="1.5"/><circle cx="5" cy="18" r="2" stroke="var(--amber)" stroke-width="1.5"/><circle cx="19" cy="12" r="2" stroke="var(--text-muted)" stroke-width="1.5"/><path d="M7 6.5l5 4.5M7 17.5l5-4.5M14 12h3" stroke="var(--amber)" stroke-width="1.4" stroke-linecap="round"/><path d="M5 8v8" stroke="var(--amber)" stroke-width="1.4" stroke-linecap="round" stroke-dasharray="2 2"/></svg>
+          </div>
+          <h3 class="cap-card__title">Trazabilidad del objeto</h3>
+          <p class="cap-card__desc">Control de movimientos, intervenciones y ubicaciones con historial actualizado y tracking por código. Siempre sabes dónde está cada pieza y qué le ha ocurrido.</p>
+        </article>
+      </div>
+
+      <!-- 6 funciones secundarias -->
+      <div class="cap-main-grid">
+        <article class="cap-card fade-in">
+          <div class="cap-card__icon-box" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none"><rect x="2" y="6" width="20" height="14" rx="2" stroke-width="1.5"/><circle cx="12" cy="13" r="3.5" stroke-width="1.4"/><path d="M9 6l1.5-2h3L15 6" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <h3 class="cap-card__title">Registro fotográfico</h3>
+          <p class="cap-card__desc">Integra fotos históricas, actuales y de intervenciones, todo asociado al objeto.</p>
+        </article>
+
+        <article class="cap-card fade-in">
+          <div class="cap-card__icon-box" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M3 21h18M5 21V9l7-5 7 5v12" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><rect x="9" y="14" width="3" height="7" rx="0.5" stroke-width="1.3"/><rect x="13" y="11" width="3" height="4" rx="0.5" stroke-width="1.3"/></svg>
+          </div>
+          <h3 class="cap-card__title">Control de salas y depósitos</h3>
+          <p class="cap-card__desc">Caracterización de espacios, KPIs ambientales y monitoreo de condiciones.</p>
+        </article>
+
+        <article class="cap-card fade-in">
+          <div class="cap-card__icon-box" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 3L2 20h20L12 3z" stroke-width="1.5" stroke-linejoin="round"/><path d="M12 10v4" stroke-width="1.6" stroke-linecap="round"/><circle cx="12" cy="17" r="0.8" fill="currentColor"/></svg>
+          </div>
+          <h3 class="cap-card__title">Gestión de riesgos</h3>
+          <p class="cap-card__desc">Evaluación automática de factores de riesgo por sala, con alertas y recomendaciones de mitigación.</p>
+        </article>
+
+        <article class="cap-card fade-in">
+          <div class="cap-card__icon-box" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none"><rect x="2" y="7" width="8" height="10" rx="1.5" stroke-width="1.4"/><rect x="14" y="7" width="8" height="10" rx="1.5" stroke-width="1.4"/><path d="M10 12h4M12 10l2 2-2 2" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <h3 class="cap-card__title">Préstamos y exposiciones</h3>
+          <p class="cap-card__desc">Sistema integrado con Facility Reports, Condition Reports y seguimiento de obras en tránsito.</p>
+        </article>
+
+        <article class="cap-card fade-in">
+          <div class="cap-card__icon-box" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 3l8 3v6c0 4-3.5 7.5-8 9-4.5-1.5-8-5-8-9V6l8-3z" stroke-width="1.4" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <h3 class="cap-card__title">Conservación preventiva</h3>
+          <p class="cap-card__desc">Planes de mantenimiento, calendarización de tareas y alertas tempranas para vitrinas, salas y objetos.</p>
+        </article>
+
+        <article class="cap-card fade-in">
+          <div class="cap-card__icon-box" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M3 17l4-5 4 3 4-6 4 3" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 21h18" stroke-width="1.3" stroke-linecap="round"/><circle cx="7" cy="12" r="1.2" fill="currentColor"/><circle cx="11" cy="15" r="1.2" fill="currentColor"/><circle cx="15" cy="9" r="1.2" fill="currentColor"/><circle cx="19" cy="12" r="1.2" fill="currentColor"/></svg>
+          </div>
+          <h3 class="cap-card__title">Estado de conservación</h3>
+          <p class="cap-card__desc">Informes de condition reports con análisis de patologías y evolución en el tiempo.</p>
+        </article>
+      </div>
+
+      <!-- 3 funciones de soporte logístico -->
+      <div class="cap-subgrid-wrap">
+        <div class="cap-subgrid-label" aria-hidden="true">
+          <span class="cap-subgrid-label-line"></span>
+          <span class="cap-subgrid-label-text">Soporte logístico</span>
+          <span class="cap-subgrid-label-line"></span>
+        </div>
+        <div class="cap-sub-grid">
+          <article class="cap-card--sub fade-in">
+            <div class="cap-card__icon-box" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="14" height="11" rx="1.5" stroke="var(--text-muted)" stroke-width="1.4"/><path d="M17 9l4-2v10l-4-2" stroke="var(--text-muted)" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="10" cy="10.5" r="2" stroke="var(--text-muted)" stroke-width="1.3"/></svg>
+            </div>
+            <h3 class="cap-card__title">Registro fotográfico completo</h3>
+            <p class="cap-card__desc">Integra fotos históricas, actuales y de intervenciones, con visualización cronológica.</p>
+          </article>
+
+          <article class="cap-card--sub fade-in">
+            <div class="cap-card__icon-box" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M21 8l-9-5-9 5v8l9 5 9-5V8z" stroke="var(--text-muted)" stroke-width="1.4" stroke-linejoin="round"/><path d="M3 8l9 5 9-5" stroke="var(--text-muted)" stroke-width="1.4"/><path d="M12 13v8" stroke="var(--text-muted)" stroke-width="1.4" stroke-linecap="round"/></svg>
+            </div>
+            <h3 class="cap-card__title">Embalaje y transporte</h3>
+            <p class="cap-card__desc">Gestión de materiales, protocolos de embalaje y logística para traslados seguros.</p>
+          </article>
+
+          <article class="cap-card--sub fade-in">
+            <div class="cap-card__icon-box" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none"><rect x="5" y="2" width="14" height="20" rx="2" stroke="var(--text-muted)" stroke-width="1.4"/><path d="M9 8h6M9 12h6M9 16h3" stroke="var(--text-muted)" stroke-width="1.3" stroke-linecap="round"/></svg>
+            </div>
+            <h3 class="cap-card__title">Reportes y condición</h3>
+            <p class="cap-card__desc">Informes detallados con análisis de patologías y condition reports exportables en PDF.</p>
+          </article>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Device showcase: MacBook + iPhone style -->
+    <div class="macbook-showcase fade-in">
+      <div class="macbook">
+        <div class="macbook-bezel">
+          <div class="macbook-cam"></div>
+          <div class="macbook-screen">
+            <img class="show-light" src="images/screenshot-desktop-light.png" alt="Servare en escritorio (modo claro)">
+            <img class="show-dark" src="images/screenshot-desktop-dark.png" alt="Servare en escritorio (modo oscuro)">
+          </div>
+        </div>
+        <div class="macbook-chin"></div>
+        <div class="macbook-base"></div>
+        <div class="macbook-foot"></div>
+      </div>
+      <div class="iphone">
+        <div class="iphone-inner">
+          <div class="iphone-island"></div>
+          <div class="iphone-screen">
+            <img class="show-light" src="images/screenshot-mobile-light.png" alt="Servare en móvil (modo claro)">
+            <img class="show-dark" src="images/screenshot-mobile-dark.png" alt="Servare en móvil (modo oscuro)">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 4: HERRAMIENTAS -->
+<section class="snap-section herramientas-section" id="sec3">
+  <div class="herramientas-inner">
+    <div class="herramientas-header">
+      <h2 class="fade-in">Herramientas que hacen la diferencia</h2>
+      <p class="herramientas-subtitle fade-in">
+        Cada función fue diseñada por restauradores, para restauradores. Sin concesiones técnicas, sin procesos que no existan en campo.
+      </p>
+    </div>
+    <div class="herramientas-grid">
+      <div class="herr-card fade-in">
+        <h3>Formularios inteligentes</h3>
+        <p>Campos dinámicos con validación en tiempo real. Registro estandarizado para cualquier tipo de patrimonio, adaptativo a cada objeto.</p>
+      </div>
+      <div class="herr-card fade-in">
+        <h3>Geolocalización offline</h3>
+        <p>GPS preciso sin conexión, mapas interactivos y coordenadas en múltiples formatos. Ideal para zonas remotas.</p>
+      </div>
+      <div class="herr-card fade-in">
+        <h3>Multimedia integrada</h3>
+        <p>Fotos, video y audio con compresión automática. Galería organizada por objeto, con historial de intervenciones.</p>
+      </div>
+      <div class="herr-card fade-in">
+        <h3>Inteligencia Artificial</h3>
+        <p>Análisis automático de deterioros, detección de patologías y generación de informes predictivos.</p>
+      </div>
+      <div class="herr-card fade-in">
+        <h3>Trabajo offline total</h3>
+        <p>Sin señal no es problema. Todo se sincroniza automáticamente cuando vuelves a conectarte.</p>
+      </div>
+      <div class="herr-card fade-in">
+        <h3>Seguridad institucional</h3>
+        <p>Encriptación de extremo a extremo, roles por institución y respaldos automáticos en la nube.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 5: EQUIPO -->
+<section class="snap-section equipo-section" id="sec4">
+  <div class="equipo-inner">
+    <div class="equipo-photo-frame fade-in">
+      <img src="images/Ganadores premio AllinChile.jpg" alt="Equipo Servare - Ganadores All in Chile 2024">
+    </div>
+    <div class="equipo-text">
+      <h2 class="fade-in">Tradición e innovación, sin contradicción</h2>
+      <p class="equipo-desc fade-in">
+        Nacimos en el desierto de Atacama documentando patrimonio con métodos manuales.
+        Hoy, nuestra solución digital es la más innovadora del país.
+      </p>
+      <div class="gold-badge fade-in">Ganadores All in Chile 2024</div>
+
+      <div class="award-stats-grid fade-in">
+        <div class="award-stat">
+          <span class="award-stat-number">1° lugar</span>
+          <span class="award-stat-label">entre más de 1.300 proyectos</span>
+        </div>
+        <div class="award-stat">
+          <span class="award-stat-number">2024</span>
+          <span class="award-stat-label">Año del premio</span>
+        </div>
+        <div class="award-stat">
+          <span class="award-stat-number">100%</span>
+          <span class="award-stat-label">Ahorro de recursos en campo</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 6: CTA -->
+<section class="cta-section" id="sec5">
+  <h2 class="fade-in">¿Trabajas con patrimonio cultural?</h2>
+  <p class="fade-in">Servare está en beta cerrada para instituciones patrimoniales de Chile y Latinoamérica</p>
+  <a href="#sec6" class="btn-green-pill fade-in">Beta Cerrada</a>
+</section>
+
+<!-- SECTION 7: CONTACTO -->
+<section class="snap-section contacto-section" id="sec6">
+  <div class="contacto-inner">
+    <div class="contacto-header fade-in">
+      <h2>Contacto</h2>
+      <p>Hablemos sobre tu institución</p>
+    </div>
+    <div class="contact-grid">
+      <div class="contact-info fade-in">
+        <h3>Información</h3>
+        <div class="contact-item">
+          <div class="contact-icon">&#9993;</div>
+          <div class="contact-item-text">
+            <strong>Email</strong>
+            <span><a href="mailto:servare@management.cloud">servare@management.cloud</a></span>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">
+            <svg fill="currentColor" viewBox="0 0 24 24" width="18" height="18"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          </div>
+          <div class="contact-item-text">
+            <strong>LinkedIn</strong>
+            <span><a href="https://www.linkedin.com/company/servare-database-patrimonial" target="_blank" rel="noopener noreferrer">Servare Database Patrimonial</a></span>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">&#128205;</div>
+          <div class="contact-item-text">
+            <strong>Ubicación</strong>
+            <span>Santiago, Chile</span>
+          </div>
+        </div>
+      </div>
+
+      <form class="contact-form fade-in" id="contact-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="nombre">Nombre completo *</label>
+            <input type="text" id="nombre" name="nombre" required placeholder="Tu nombre completo">
+          </div>
+          <div class="form-group">
+            <label for="email">Email *</label>
+            <input type="email" id="email" name="email" required placeholder="tu@email.com">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="institucion">Institución</label>
+            <input type="text" id="institucion" name="institucion" placeholder="Nombre de tu institución">
+          </div>
+          <div class="form-group">
+            <label for="cargo">Cargo</label>
+            <input type="text" id="cargo" name="cargo" placeholder="Tu cargo o rol">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="area-profesional">Área Profesional</label>
+          <select id="area-profesional" name="area_profesional">
+            <option value="">Selecciona tu área (opcional)</option>
+            <option value="arqueologia">Arqueología</option>
+            <option value="museos">Museos</option>
+            <option value="conservacion-restauracion">Conservación y Restauración</option>
+            <option value="archivos">Archivos</option>
+            <option value="paleontologia">Paleontología</option>
+            <option value="gestion-cultural">Gestión Cultural</option>
+            <option value="investigacion">Investigación</option>
+            <option value="educacion">Educación</option>
+            <option value="otro-profesional">Otro</option>
+          </select>
+        </div>
+        <div class="form-group" id="otro-area-group" style="display: none;">
+          <label for="otro-area-texto">Especifica tu área profesional:</label>
+          <input type="text" id="otro-area-texto" name="otro_area_texto" placeholder="Describe tu área profesional">
+        </div>
+        <div class="form-group">
+          <label for="interes">Área de interés *</label>
+          <select id="interes" name="interes" required>
+            <option value="">Selecciona una opción</option>
+            <option value="implementacion">Implementación Institucional</option>
+            <option value="colaboracion">Colaboración Académica</option>
+            <option value="apoyo">Apoyo y Patrocinio</option>
+            <option value="beta">Acceso a Beta</option>
+            <option value="demo">Solicitar Demo</option>
+            <option value="otro">Otro</option>
+          </select>
+        </div>
+        <div class="form-group" id="otro-interes-group" style="display: none;">
+          <label for="otro-interes-texto">Especifica tu interés:</label>
+          <input type="text" id="otro-interes-texto" name="otro_interes_texto" placeholder="Describe tu área de interés">
+        </div>
+        <div class="form-group">
+          <label for="mensaje">Mensaje *</label>
+          <textarea id="mensaje" name="mensaje" rows="4" required placeholder="Cuéntanos sobre tu proyecto o interés en Servare..."></textarea>
+        </div>
+        <div class="form-submit">
+          <button type="submit" class="btn-submit">Enviar Mensaje</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer-section">
+  <div class="footer-inner">
+    <ul class="footer-links">
+      <li><a href="#sec0">Inicio</a></li>
+      <li><a href="en-desarrollo.html">Biblioteca</a></li>
+      <li><a href="en-desarrollo.html">Repositorio</a></li>
+      <li><a href="#sec6">Contacto</a></li>
+    </ul>
+    <span class="footer-copy">&copy; 2026 Servare. Todos los derechos reservados.</span>
+  </div>
+</footer>
+
+<!-- JavaScript (modular) -->
+<script src="js/main.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script src="js/contact.js"></script>
+
+</body>
+</html>
