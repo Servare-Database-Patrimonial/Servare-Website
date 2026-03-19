@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>En Desarrollo — Servare</title>
+  <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
+  <link rel="shortcut icon" href="images/IsotipoColor.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/nav.css">
+  <link rel="stylesheet" href="css/footer.css">
+  <script src="js/config.js"></script>
+  <script src="js/nav.js"></script>
+  <style>
+    .dev-container {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem;
+      background: var(--bg-main);
+      transition: background 0.3s;
+    }
+    .dev-icon {
+      font-size: 4rem;
+      margin-bottom: 1.5rem;
+      opacity: 0.6;
+    }
+    .dev-container h1 {
+      font-size: 2.8rem;
+      font-weight: 700;
+      color: var(--text-heading);
+      letter-spacing: -0.03em;
+      margin-bottom: 1rem;
+    }
+    .dev-container p {
+      font-size: 1.1rem;
+      color: var(--text-body);
+      max-width: 500px;
+      margin-bottom: 2.5rem;
+      line-height: 1.7;
+    }
+    .dev-back {
+      display: inline-block;
+      padding: 0.75rem 2rem;
+      background: var(--green);
+      color: #fff;
+      text-decoration: none;
+      border-radius: 9999px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      transition: transform 0.2s;
+    }
+    .dev-back:hover {
+      transform: translateY(-2px);
+    }
+  </style>
+</head>
+<body>
+
+<!-- FLOATING NAV -->
+<nav class="floating-nav">
+  <a href="index.html" class="logo">
+    <img src="images/servare-logo.png" alt="Servare">
+  </a>
+  <button class="hamburger" id="hamburgerBtn" onclick="toggleMenu()" aria-label="Abrir menú">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- FULLSCREEN MENU OVERLAY -->
+<div class="menu-overlay" id="menuOverlay">
+  <ul class="menu-links">
+    <li><a href="index.html" onclick="toggleMenu()">Inicio</a></li>
+    <li><a href="en-desarrollo.html" onclick="toggleMenu()">Biblioteca</a></li>
+    <li><a href="en-desarrollo.html" onclick="toggleMenu()">Repositorio</a></li>
+    <li>
+      <button class="menu-theme-toggle" onclick="toggleTheme()" aria-label="Cambiar tema">
+        <span class="icon-sun"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg></span>
+        <span class="icon-moon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></span>
+      </button>
+    </li>
+  </ul>
+</div>
+
+<div class="dev-container">
+  <div class="dev-icon">&#128679;</div>
+  <h1>Pagina en desarrollo</h1>
+  <p>Estamos trabajando en esta seccion. Pronto estara disponible.</p>
+  <a href="index.html" class="dev-back">Volver al inicio</a>
+</div>
+
+<script src="js/main.js"></script>
+</body>
+</html>

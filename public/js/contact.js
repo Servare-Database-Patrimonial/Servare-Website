@@ -1,361 +1,194 @@
-// Sistema de contacto con EmailJS - Servare Website
-// Implementa etiquetas categorizadas para fácil identificación de emails
+// Contact form with EmailJS - Servare Website
 
-console.log('📧 Sistema de contacto EmailJS cargando...');
-
-// Configuración EmailJS - Servare Database Patrimonial
-const EMAIL_CONFIG = {
-    SERVICE_ID: 'service_ben531s',      // Service ID configurado
-    TEMPLATE_ID: 'template_j2qufea',    // Template ID configurado  
-    PUBLIC_KEY: 'ywSkpDeLSkQmNjMxF'     // Public Key configurado
+var EMAIL_CONFIG = {
+  SERVICE_ID: 'service_ben531s',
+  TEMPLATE_ID: 'template_j2qufea',
+  PUBLIC_KEY: 'ywSkpDeLSkQmNjMxF'
 };
 
-// Mapeo de categorías para etiquetas en el email
-const CATEGORY_LABELS = {
-    'implementacion': {
-        tag: '[SERVARE - IMPLEMENTACIÓN INSTITUCIONAL]',
-        priority: '🔴 ALTA',
-        description: 'Consulta sobre implementación en institución'
-    },
-    'colaboracion': {
-        tag: '[SERVARE - COLABORACIÓN ACADÉMICA]',
-        priority: '🟡 MEDIA',
-        description: 'Interés en colaboración académica/investigación'
-    },
-    'apoyo': {
-        tag: '[SERVARE - APOYO Y PATROCINIO]',
-        priority: '🟢 ALTA',
-        description: 'Interés en apoyar y patrocinar el proyecto'
-    },
-    'beta': {
-        tag: '[SERVARE - ACCESO A BETA]',
-        priority: '🔴 ALTA',
-        description: 'Solicitud de acceso a la versión beta de la plataforma'
-    },
-    'demo': {
-        tag: '[SERVARE - SOLICITUD DEMO]',
-        priority: '🔴 ALTA',
-        description: 'Solicitud de demostración del producto'
-    },
-    'otro': {
-        tag: '[SERVARE - CONSULTA GENERAL]',
-        priority: '🟡 MEDIA',
-        description: 'Consulta general o sin categoría específica'
-    }
+var CATEGORY_LABELS = {
+  'implementacion': {
+    tag: '[SERVARE - IMPLEMENTACION INSTITUCIONAL]',
+    priority: 'ALTA',
+    description: 'Consulta sobre implementacion en institucion'
+  },
+  'colaboracion': {
+    tag: '[SERVARE - COLABORACION ACADEMICA]',
+    priority: 'MEDIA',
+    description: 'Interes en colaboracion academica/investigacion'
+  },
+  'apoyo': {
+    tag: '[SERVARE - APOYO Y PATROCINIO]',
+    priority: 'ALTA',
+    description: 'Interes en apoyar y patrocinar el proyecto'
+  },
+  'beta': {
+    tag: '[SERVARE - ACCESO A BETA]',
+    priority: 'ALTA',
+    description: 'Solicitud de acceso a la version beta de la plataforma'
+  },
+  'demo': {
+    tag: '[SERVARE - SOLICITUD DEMO]',
+    priority: 'ALTA',
+    description: 'Solicitud de demostracion del producto'
+  },
+  'otro': {
+    tag: '[SERVARE - CONSULTA GENERAL]',
+    priority: 'MEDIA',
+    description: 'Consulta general'
+  }
 };
 
-// Mapeo de áreas profesionales para mejor identificación
-const PROFESSIONAL_AREAS = {
-    'arqueologia': 'ARQUEOLOGÍA',
-    'museos': 'MUSEOS',
-    'conservacion-restauracion': 'CONSERVACIÓN Y RESTAURACIÓN',
-    'archivos': 'ARCHIVOS',
-    'paleontologia': 'PALEONTOLOGÍA',
-    'gestion-cultural': 'GESTIÓN CULTURAL',
-    'investigacion': 'INVESTIGACIÓN',
-    'educacion': 'EDUCACIÓN',
-    'otro-profesional': 'OTRO (ESPECIFICADO)'
+var PROFESSIONAL_AREAS = {
+  'arqueologia': 'Arqueologia',
+  'museos': 'Museos',
+  'conservacion-restauracion': 'Conservacion y Restauracion',
+  'archivos': 'Archivos',
+  'paleontologia': 'Paleontologia',
+  'gestion-cultural': 'Gestion Cultural',
+  'investigacion': 'Investigacion',
+  'educacion': 'Educacion',
+  'otro-profesional': 'Otro (especificado)'
 };
 
-// Inicializar EmailJS cuando se carga la página
 function initializeEmailJS() {
-    try {
-        if (EMAIL_CONFIG.PUBLIC_KEY !== 'YOUR_PUBLIC_KEY') {
-            emailjs.init(EMAIL_CONFIG.PUBLIC_KEY);
-            console.log('✅ EmailJS inicializado correctamente');
-            return true;
-        } else {
-            console.warn('⚠️ EmailJS no configurado - usando modo demo');
-            return false;
-        }
-    } catch (error) {
-        console.error('❌ Error inicializando EmailJS:', error);
-        return false;
-    }
+  try {
+    emailjs.init(EMAIL_CONFIG.PUBLIC_KEY);
+    return true;
+  } catch (error) {
+    console.error('Error initializing EmailJS:', error);
+    return false;
+  }
 }
 
-// Funciones auxiliares para formatear información
-function getAreaProfesional(formData) {
-    if (!formData.area_profesional) {
-        return 'No especificada';
-    }
-    
-    if (formData.area_profesional === 'otro-profesional' && formData.otro_area_texto) {
-        return `${formData.otro_area_texto.toUpperCase()} (especificado)`;
-    }
-    
-    return PROFESSIONAL_AREAS[formData.area_profesional] || formData.area_profesional.toUpperCase();
-}
-
-function getAreaInteres(formData) {
-    if (formData.interes === 'otro' && formData.otro_interes_texto) {
-        return `${formData.otro_interes_texto.toUpperCase()} (especificado)`;
-    }
-    
-    return formData.interes.toUpperCase();
-}
-
-// Función para mostrar/ocultar campos "Otro"
 function toggleOtherFields() {
-    const areaProfesional = document.getElementById('area-profesional');
-    const areaInteres = document.getElementById('interes');
-    const otroAreaGroup = document.getElementById('otro-area-group');
-    const otroInteresGroup = document.getElementById('otro-interes-group');
-    
-    // Manejar Área Profesional
-    if (areaProfesional && otroAreaGroup) {
-        areaProfesional.addEventListener('change', function() {
-            if (this.value === 'otro-profesional') {
-                otroAreaGroup.style.display = 'block';
-                document.getElementById('otro-area-texto').required = true;
-            } else {
-                otroAreaGroup.style.display = 'none';
-                document.getElementById('otro-area-texto').required = false;
-                document.getElementById('otro-area-texto').value = '';
-            }
-        });
-    }
-    
-    // Manejar Área de Interés
-    if (areaInteres && otroInteresGroup) {
-        areaInteres.addEventListener('change', function() {
-            if (this.value === 'otro') {
-                otroInteresGroup.style.display = 'block';
-                document.getElementById('otro-interes-texto').required = true;
-            } else {
-                otroInteresGroup.style.display = 'none';
-                document.getElementById('otro-interes-texto').required = false;
-                document.getElementById('otro-interes-texto').value = '';
-            }
-        });
-    }
-}
+  var areaProfesional = document.getElementById('area-profesional');
+  var areaInteres = document.getElementById('interes');
+  var otroAreaGroup = document.getElementById('otro-area-group');
+  var otroInteresGroup = document.getElementById('otro-interes-group');
 
-// Función para enviar email con etiquetas organizadas
-async function sendContactEmail(formData) {
-    const category = CATEGORY_LABELS[formData.interes] || CATEGORY_LABELS['otro'];
-    const timestamp = new Date().toLocaleString('es-ES', {
-        timeZone: 'America/Santiago',
-        day: '2-digit',
-        month: '2-digit', 
-        year: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit'
+  if (areaProfesional && otroAreaGroup) {
+    areaProfesional.addEventListener('change', function() {
+      var show = this.value === 'otro-profesional';
+      otroAreaGroup.style.display = show ? 'block' : 'none';
+      var input = document.getElementById('otro-area-texto');
+      input.required = show;
+      if (!show) input.value = '';
     });
+  }
 
-    // Parámetros que coinciden con tu configuración EmailJS actual
-    const templateParams = {
-        // === VARIABLES QUE COINCIDEN CON TU TEMPLATE ===
-        subject: `WEB - ${category.tag} | ${formData.nombre} (${PROFESSIONAL_AREAS[formData.area_profesional] || 'Sin área'}) | ${category.priority}`, // Subject optimizado para {{subject}}
-        email_body: `🏛️ NUEVA CONSULTA SERVARE DATABASE PATRIMONIAL
-${category.tag}
-
-📊 INFORMACIÓN DEL CONTACTO:
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-👤 Nombre: ${formData.nombre}
-📧 Email: ${formData.email}
-🏢 Institución: ${formData.institucion || 'No especificada'}
-💼 Cargo: ${formData.cargo || 'No especificado'}
-🔬 Área Profesional: ${getAreaProfesional(formData)}
-🎯 Área de Interés: ${getAreaInteres(formData)}
-
-📝 MENSAJE:
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-${formData.mensaje}
-
-⚙️ METADATOS:
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-📅 Fecha: ${timestamp}
-🌐 Origen: ${window.location.href}
-📱 Dispositivo: ${navigator.userAgent.includes('Mobile') ? 'Móvil' : 'Escritorio'}
-🔍 Prioridad: ${category.priority}
-
-📈 SEGUIMIENTO:
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-${category.description}
-
-Responder directamente a: ${formData.email}`,
-        
-        // === DATOS ADICIONALES PARA REFERENCIA ===
-        from_name: `Formulario Servare - ${formData.nombre}`, // Cambia el remitente
-        reply_to: formData.email, // Para responder directamente al usuario
-        user_email: formData.email,
-        institution: formData.institucion || 'No especificada',
-        position: formData.cargo || 'No especificado',
-        interest_area: formData.interes,
-        message: formData.mensaje,
-        category_tag: category.tag,
-        priority: category.priority,
-        timestamp: timestamp
-    };
-
-    try {
-        console.log('📤 Enviando email con parámetros:', templateParams);
-        
-        const response = await emailjs.send(
-            EMAIL_CONFIG.SERVICE_ID,
-            EMAIL_CONFIG.TEMPLATE_ID,
-            templateParams
-        );
-        
-        console.log('✅ Email enviado exitosamente:', response);
-        return { success: true, response };
-        
-    } catch (error) {
-        console.error('❌ Error enviando email:', error);
-        return { success: false, error };
-    }
+  if (areaInteres && otroInteresGroup) {
+    areaInteres.addEventListener('change', function() {
+      var show = this.value === 'otro';
+      otroInteresGroup.style.display = show ? 'block' : 'none';
+      var input = document.getElementById('otro-interes-texto');
+      input.required = show;
+      if (!show) input.value = '';
+    });
+  }
 }
 
-// Función para mostrar modo demo cuando EmailJS no está configurado
-function showDemoMode(formData) {
-    const category = CATEGORY_LABELS[formData.interes] || CATEGORY_LABELS['otro'];
-    
-    console.log(`
-📧 MODO DEMO - Email que se enviaría:
-${category.tag} ${formData.nombre}
-
-Prioridad: ${category.priority}
-Email: ${formData.email}
-Institución: ${formData.institucion || 'No especificada'}
-Mensaje: ${formData.mensaje}
-    `);
-    
-    // Mostrar modal de confirmación
-    alert(`✅ MODO DEMO ACTIVADO
-
-El formulario funcionaría así:
-
-📧 Asunto: ${category.tag} ${formData.nombre}
-🎯 Prioridad: ${category.priority} 
-📨 Email: ${formData.email}
-
-Para activar el envío real:
-1. Configura EmailJS en js/contact.js
-2. Reemplaza YOUR_SERVICE_ID, YOUR_TEMPLATE_ID, YOUR_PUBLIC_KEY
-
-¡Gracias por tu interés en Servare!`);
+function getAreaProfesional(data) {
+  if (!data.area_profesional) return 'No especificada';
+  if (data.area_profesional === 'otro-profesional' && data.otro_area_texto) {
+    return data.otro_area_texto + ' (especificado)';
+  }
+  return PROFESSIONAL_AREAS[data.area_profesional] || data.area_profesional;
 }
 
-// Manejar envío del formulario de contacto
+function getAreaInteres(data) {
+  if (data.interes === 'otro' && data.otro_interes_texto) {
+    return data.otro_interes_texto + ' (especificado)';
+  }
+  return data.interes;
+}
+
 async function handleContactForm(event) {
-    event.preventDefault();
-    
-    const form = event.target;
-    const submitBtn = form.querySelector('.btn-submit');
-    const originalText = submitBtn.textContent;
-    
-    // Obtener datos del formulario
-    const formData = new FormData(form);
-    const data = Object.fromEntries(formData);
-    
-    // Validación básica
-    if (!data.nombre || !data.email || !data.interes || !data.mensaje) {
-        alert('❌ Por favor completa todos los campos obligatorios.');
-        return;
-    }
-    
-    // Validación de email
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(data.email)) {
-        alert('❌ Por favor ingresa un email válido.');
-        return;
-    }
-    
-    // UI de carga
-    submitBtn.textContent = '📤 Enviando mensaje...';
-    submitBtn.disabled = true;
-    submitBtn.style.opacity = '0.7';
-    
-    try {
-        // Verificar si EmailJS está configurado
-        const isEmailJSConfigured = EMAIL_CONFIG.PUBLIC_KEY !== 'YOUR_PUBLIC_KEY';
-        
-        if (isEmailJSConfigured) {
-            // Envío real con EmailJS
-            const result = await sendContactEmail(data);
-            
-            if (result.success) {
-                // Éxito
-                const category = CATEGORY_LABELS[data.interes] || CATEGORY_LABELS['otro'];
-                
-                alert(`✅ ¡Mensaje enviado exitosamente!
+  event.preventDefault();
 
-Hola ${data.nombre}, tu consulta ha sido enviada con la etiqueta:
-${category.tag}
+  var form = event.target;
+  var submitBtn = form.querySelector('.btn-submit');
+  var originalText = submitBtn.textContent;
 
-Te contactaremos pronto a: ${data.email}
+  var formData = new FormData(form);
+  var data = Object.fromEntries(formData);
 
-¡Gracias por tu interés en Servare! 🏛️`);
-                
-                form.reset();
-                
-                // Scroll suave al inicio
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-                
-            } else {
-                // Error en el envío
-                alert(`❌ Error al enviar el mensaje.
+  // Validation
+  if (!data.nombre || !data.email || !data.interes || !data.mensaje) {
+    alert('Por favor completa todos los campos obligatorios.');
+    return;
+  }
 
-Por favor intenta nuevamente o contáctanos directamente a:
-📧 servare.dp@gmail.com
+  var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(data.email)) {
+    alert('Por favor ingresa un email valido.');
+    return;
+  }
 
-Disculpa las molestias.`);
-            }
-        } else {
-            // Modo demo (sin configuración)
-            showDemoMode(data);
-            form.reset();
-        }
-        
-    } catch (error) {
-        console.error('❌ Error inesperado:', error);
-        alert('❌ Error inesperado. Por favor intenta nuevamente.');
-    } finally {
-        // Restaurar botón
-        submitBtn.textContent = originalText;
-        submitBtn.disabled = false;
-        submitBtn.style.opacity = '1';
-    }
+  submitBtn.textContent = 'Enviando...';
+  submitBtn.disabled = true;
+
+  var category = CATEGORY_LABELS[data.interes] || CATEGORY_LABELS['otro'];
+  var timestamp = new Date().toLocaleString('es-CL', {
+    timeZone: 'America/Santiago',
+    day: '2-digit', month: '2-digit', year: 'numeric',
+    hour: '2-digit', minute: '2-digit'
+  });
+
+  var templateParams = {
+    subject: 'WEB - ' + category.tag + ' | ' + data.nombre + ' (' + getAreaProfesional(data) + ') | ' + category.priority,
+    email_body: 'NUEVA CONSULTA SERVARE DATABASE PATRIMONIAL\n' +
+      category.tag + '\n\n' +
+      'INFORMACION DEL CONTACTO:\n' +
+      'Nombre: ' + data.nombre + '\n' +
+      'Email: ' + data.email + '\n' +
+      'Institucion: ' + (data.institucion || 'No especificada') + '\n' +
+      'Cargo: ' + (data.cargo || 'No especificado') + '\n' +
+      'Area Profesional: ' + getAreaProfesional(data) + '\n' +
+      'Area de Interes: ' + getAreaInteres(data) + '\n\n' +
+      'MENSAJE:\n' + data.mensaje + '\n\n' +
+      'METADATOS:\n' +
+      'Fecha: ' + timestamp + '\n' +
+      'Origen: ' + window.location.href + '\n' +
+      'Dispositivo: ' + (navigator.userAgent.includes('Mobile') ? 'Movil' : 'Escritorio') + '\n' +
+      'Prioridad: ' + category.priority + '\n\n' +
+      'Responder directamente a: ' + data.email,
+    from_name: 'Formulario Servare - ' + data.nombre,
+    reply_to: data.email,
+    user_email: data.email,
+    institution: data.institucion || 'No especificada',
+    position: data.cargo || 'No especificado',
+    interest_area: data.interes,
+    message: data.mensaje,
+    category_tag: category.tag,
+    priority: category.priority,
+    timestamp: timestamp
+  };
+
+  try {
+    await emailjs.send(EMAIL_CONFIG.SERVICE_ID, EMAIL_CONFIG.TEMPLATE_ID, templateParams);
+    alert('Mensaje enviado exitosamente.\n\nTe contactaremos pronto a: ' + data.email);
+    form.reset();
+    // Hide dynamic fields after reset
+    var otroAreaGroup = document.getElementById('otro-area-group');
+    var otroInteresGroup = document.getElementById('otro-interes-group');
+    if (otroAreaGroup) otroAreaGroup.style.display = 'none';
+    if (otroInteresGroup) otroInteresGroup.style.display = 'none';
+  } catch (error) {
+    console.error('Error sending email:', error);
+    alert('Error al enviar el mensaje.\n\nPor favor contactanos directamente a: servare@management.cloud');
+  } finally {
+    submitBtn.textContent = originalText;
+    submitBtn.disabled = false;
+  }
 }
 
-// Inicialización cuando el DOM está listo
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('📧 Inicializando sistema de contacto...');
-    
-    // Inicializar EmailJS
-    const emailJSReady = initializeEmailJS();
-    
-    // Conectar formulario
-    const contactForm = document.getElementById('contact-form');
-    if (contactForm) {
-        // Remover el listener anterior de script.js si existe
-        const newForm = contactForm.cloneNode(true);
-        contactForm.parentNode.replaceChild(newForm, contactForm);
-        
-        // Agregar nuevo listener
-        newForm.addEventListener('submit', handleContactForm);
-        console.log('✅ Formulario de contacto conectado con sistema de etiquetas');
-    } else {
-        console.warn('⚠️ No se encontró el formulario de contacto');
-    }
-    
-    // Configurar funcionalidad de campos "Otro" dinámicos
-    toggleOtherFields();
-    console.log('✅ Campos dinámicos "Otro" configurados');
-    
-    // Log del sistema
-    console.log(`
-📧 Sistema de Contacto Servare Listo
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-✅ EmailJS: ${emailJSReady ? 'Configurado' : 'Modo Demo'}
-📧 Etiquetas disponibles: ${Object.keys(CATEGORY_LABELS).length}
-🎯 Formulario: Conectado con sistema de identificación
-    `);
+  initializeEmailJS();
+  toggleOtherFields();
+
+  var contactForm = document.getElementById('contact-form');
+  if (contactForm) {
+    contactForm.addEventListener('submit', handleContactForm);
+  }
 });
-
-// Exportar funciones para uso global
-window.handleContactForm = handleContactForm;
-window.sendContactEmail = sendContactEmail;
-
-console.log('📧 Sistema de contacto cargado - Listo para configurar EmailJS');
