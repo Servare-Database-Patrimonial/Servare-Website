@@ -6,7 +6,17 @@
 npm install        # Install dependencies
 npm run dev        # Dev server at http://localhost:3001
 npm run preview    # Preview build
+./sync-docs.sh     # Sync public/ → docs/ (required before git push)
 ```
+
+## Deployment Workflow
+
+1. Edit files in `public/` (source of truth)
+2. Run `./sync-docs.sh` to copy to `docs/`
+3. `git add public/ docs/` then commit and push
+4. GitHub Pages serves from `docs/` on branch `main`
+
+**IMPORTANT**: Never edit `docs/` directly — always edit `public/` and sync.
 
 ## Project Overview
 
@@ -57,8 +67,9 @@ mockups/                     # Design references (A-K)
 
 ### Key Integrations
 
-**App Redirect** — All "Solicitar Acceso" / "App" buttons call `redirectToApp()` from `config.js`.
+**App Redirect** — All "Beta Cerrada" / "App" buttons call `redirectToApp()` from `config.js`.
 Redirects to `https://servare-91966.web.app` in production, `http://localhost:3000` in dev.
+(Pending: change to `https://app.servare.cloud` once custom domain is configured)
 
 **EmailJS Contact Form** — `contact.js` handles form submission with categorized labels.
 ```
@@ -71,13 +82,14 @@ PUBLIC_KEY: 'ywSkpDeLSkQmNjMxF'
 
 ## Deployment
 
-**Website**: Push to `main` branch → GitHub Pages → `servare.cloud` (via Cloudflare DNS)
+**Website**: Edit `public/` → run `./sync-docs.sh` → push `main` → GitHub Pages (from `/docs`) → `servare.cloud`
 **App**: Separate deploy from Servare App-Web → Firebase Hosting → `servare-91966.web.app`
 **Cloudflare**: `servare.cloud/app` redirects to Firebase app hosting
+**Logo**: Dual logos — `servare-logo-light.png` (dark text, light mode) / `servare-logo-dark.png` (white text, dark mode). Uses `.show-light`/`.show-dark` classes, no CSS filter.
 
 ## Landing Page Sections
-1. **Hero** — Full-screen photo + title + CTA
-2. **Por qué Servare** — Quote + 3 problem cards
+1. **Hero** — Full-screen photo + title (uppercase, DM Sans 700, 0.08em spacing)
+2. **Por qué Servare** — Quote + 3 flip cards (problem→solution on hover) + story CTA
 3. **Lo que hace Servare** — 6 capabilities + phone mockup
 4. **Herramientas** — 3x2 feature grid
 5. **Equipo** — Team photo + All in Chile badge
