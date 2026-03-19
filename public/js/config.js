@@ -3,7 +3,7 @@
 var SERVARE_CONFIG = {
   APP_URL: window.location.hostname === 'localhost'
     ? 'http://localhost:3000'
-    : 'https://servare-91966.web.app',
+    : 'https://app.servare.cloud',
 
   WEBSITE_URL: window.location.hostname === 'localhost'
     ? 'http://localhost:3001'
