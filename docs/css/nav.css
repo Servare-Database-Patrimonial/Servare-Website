@@ -42,12 +42,31 @@
 
 .floating-nav .logo img {
   height: 44px;
-  transition: filter 0.3s;
-  filter: brightness(0) invert(1);
+  transition: opacity 0.3s;
 }
 
-.floating-nav.scrolled .logo img {
-  filter: var(--logo-filter);
+/* Before scroll (on hero): show white-text logo, hide dark-text logo */
+.floating-nav .logo img.show-light {
+  display: none;
+}
+.floating-nav .logo img.show-dark {
+  display: block;
+}
+
+/* After scroll (solid nav): show theme-appropriate logo */
+.floating-nav.scrolled .logo img.show-light {
+  display: block;
+}
+.floating-nav.scrolled .logo img.show-dark {
+  display: none;
+}
+
+/* Dark mode after scroll: flip which logo shows */
+body.dark .floating-nav.scrolled .logo img.show-light {
+  display: none;
+}
+body.dark .floating-nav.scrolled .logo img.show-dark {
+  display: block;
 }
 
 /* ===== HAMBURGER ===== */
