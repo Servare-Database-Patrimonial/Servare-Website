@@ -484,7 +484,6 @@ body.dark .cta-section {
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--text-muted);
-  white-space: nowrap;
 }
 
 .flip-grid {
@@ -1136,18 +1135,19 @@ body.dark .iphone-island { background: #0a0a0a; }
 
 /* ===== RESPONSIVE ===== */
 @media (max-width: 768px) {
-  .hero-content h1 { font-size: 3rem; }
+  .hero-content h1 { font-size: 2.5rem; }
   .hero-content .hero-subtitle { font-size: 1rem; }
   .hero-section { min-height: 85vh; }
 
-  .propuesta-quote { font-size: 2rem; }
+  .propuesta-quote { font-size: 1.8rem; }
   .propuesta-section { padding: 4rem 1.5rem; }
+  .problems-label { flex-direction: column; gap: 6px; }
+  .problems-label-line { display: none; }
+  .problems-label-text { text-align: center; font-size: 0.68rem; }
 
   .solucion-grid { grid-template-columns: 1fr; gap: 2.5rem; }
   .solucion-header h2 { font-size: 2rem; }
   .solucion-section { padding: 4rem 1.5rem; }
-  .devices-showcase { max-width: 420px; }
-  .device-phone { width: 110px; right: -0.5rem; }
 
   .herramientas-grid { grid-template-columns: 1fr; }
   .herramientas-section { padding: 4rem 1.5rem; }
@@ -1157,15 +1157,16 @@ body.dark .iphone-island { background: #0a0a0a; }
   .equipo-text h2 { font-size: 1.6rem; }
   .equipo-section { padding: 4rem 1.5rem; }
 
-  .cta-section h2 { font-size: 2.2rem; }
+  .cta-section h2 { font-size: 2rem; }
   .cta-section { padding: 4rem 1.5rem; }
 
   .flip-grid { grid-template-columns: 1fr 1fr; }
   .flip-card { height: clamp(240px, 35vw, 300px); }
+  .flip-card__hint { display: none; }
   .cap-featured-grid { grid-template-columns: 1fr; }
   .cap-main-grid { grid-template-columns: 1fr 1fr; }
   .cap-sub-grid { grid-template-columns: 1fr 1fr; }
-  .award-stats-grid { grid-template-columns: repeat(2, 1fr); }
+  .award-stats-grid { grid-template-columns: repeat(3, 1fr); }
   .macbook-showcase { max-width: 95%; }
   .iphone { width: 100px; right: -0.5rem; border-radius: 16px; padding: 4px; }
   .iphone-inner { border-radius: 13px; }
@@ -1173,6 +1174,7 @@ body.dark .iphone-island { background: #0a0a0a; }
 }
 
 @media (max-width: 520px) {
+  .hero-content h1 { font-size: 2rem; }
   .flip-grid { grid-template-columns: 1fr; }
   .flip-card { height: auto; min-height: 200px; }
   .flip-card__inner { transform: none !important; transform-style: flat; }
@@ -1182,9 +1184,12 @@ body.dark .iphone-island { background: #0a0a0a; }
   .cap-main-grid { grid-template-columns: 1fr; }
   .cap-sub-grid { grid-template-columns: 1fr; }
   .cap-card--featured::after { font-size: 4rem; }
-  .award-stats-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .award-stats-grid { grid-template-columns: 1fr; gap: 8px; }
+  .award-stat { flex-direction: row; align-items: center; gap: 12px; }
+  .cta-section h2 { font-size: 1.6rem; }
+  .equipo-text h2 { font-size: 1.4rem; }
 }
 
 @media (max-width: 320px) {
-  .hero-content h1 { font-size: 2.4rem; }
+  .hero-content h1 { font-size: 1.7rem; }
 }

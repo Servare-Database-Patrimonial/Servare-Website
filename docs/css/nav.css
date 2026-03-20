@@ -244,3 +244,9 @@ body.dark .icon-moon { display: inline; }
     height: 8px;
   }
 }
+
+@media (max-width: 520px) {
+  .side-dots {
+    display: none;
+  }
+}

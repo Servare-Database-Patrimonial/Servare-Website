@@ -56,8 +56,19 @@ mockups/                     # Design references (A-K)
 - **Dark**: Bg #1A1816 (warm museum-at-night)
 - **Accents from logo**: #F2E8DE, #B7F5BF, #71DEA0, #9EDEFB, #FFA6AD
 - **Brand palette**: Blue #1E3A8A, Green #059669, Amber #D97706
-- **Breakpoints**: 320px, 768px, 1200px
+- **Breakpoints**: 320px, 520px, 768px, 1200px
 - **Target audience**: Users 45+ — large text, high contrast, clear navigation
+
+### Mobile Responsive (20 Mar 2026)
+- Scroll snap disabled on `< 768px` (causes janky UX on touch)
+- `snap-section` min-height auto on mobile (content-driven height)
+- Side dots hidden on `< 520px`
+- Flip card "Ver solución" hint hidden on mobile (hover not applicable)
+- Problems label stacks vertically on mobile (no `white-space: nowrap`)
+- Hero h1 scales: 2.5rem (768px) → 2rem (520px) → 1.7rem (320px)
+- Award stats: 3-col on tablet, 1-col horizontal on `< 520px`
+- Footer stacks centered on mobile
+- CTA/Equipo headings scale down progressively
 
 ### Navigation Pattern
 - Hamburger menu always visible (no horizontal nav links)

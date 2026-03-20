@@ -38,3 +38,23 @@
   color: var(--footer-text-muted);
   font-size: 0.8rem;
 }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .footer-section {
+    padding: 2.5rem 1.5rem 2rem;
+  }
+
+  .footer-inner {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1.25rem;
+  }
+
+  .footer-links {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.25rem;
+  }
+}

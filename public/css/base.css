@@ -12,6 +12,13 @@ html {
   scroll-behavior: smooth;
 }
 
+@media (max-width: 768px) {
+  html {
+    scroll-snap-type: none;
+  }
+}
+
+
 body {
   font-family: 'DM Sans', sans-serif;
   background: var(--bg-main);
@@ -30,6 +37,13 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
+}
+
+@media (max-width: 768px) {
+  .snap-section {
+    min-height: auto;
+    scroll-snap-align: none;
+  }
 }
 
 /* ===== BUTTONS ===== */
