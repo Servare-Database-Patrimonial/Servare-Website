@@ -18,7 +18,16 @@ jobs:
       - name: Check for mixed content
         run: |
           echo "Checking for HTTP links in production files..."
-          if grep -r "http://" public/ --exclude-dir=node_modules --exclude="*.md" | grep -v "localhost" | grep -v "example"; then
+          # Search only in source files we control (not compiled app bundle or binaries)
+          # Exclude: SVG/XML namespace URIs, Apache license URLs, localhost, examples
+          if grep -r "http://" public/ \
+            --include="*.html" --include="*.css" --include="*.js" \
+            --exclude-dir=node_modules --exclude-dir=app \
+            | grep -v "localhost" \
+            | grep -v "example" \
+            | grep -v "http://www.w3.org/" \
+            | grep -v "http://www.apache.org" \
+            | grep -v "data:image/"; then
             echo "⚠️  Warning: Found HTTP links in production files"
             exit 1
           else
