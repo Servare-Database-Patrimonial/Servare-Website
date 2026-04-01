@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Repositorio Patrimonial — Servare</title>
+  <meta name="description" content="Explora colecciones de instituciones patrimoniales de Chile. Un catálogo abierto para investigar, comparar y descubrir.">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
+  <link rel="shortcut icon" href="images/IsotipoColor.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
+  <meta name="theme-color" content="#1E3A8A">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap" rel="stylesheet">
+
+  <!-- CSS (modular) -->
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/nav.css">
+  <link rel="stylesheet" href="css/footer.css">
+
+  <!-- Config + Nav (loaded early for onclick handlers) -->
+  <script src="js/config.js"></script>
+  <script src="js/nav.js"></script>
+
+  <!-- Page-specific styles -->
+  <style>
+/* ===== REPOSITORIO-SPECIFIC VARIABLES ===== */
+:root {
+  --hero-overlay: rgba(30,58,138,0.55);
+  --hero-overlay-mid: rgba(30,58,138,0.35);
+  --hero-overlay-end: rgba(30,58,138,0.6);
+  --filter-focus: #1E3A8A;
+  --filter-focus-shadow: rgba(30,58,138,0.08);
+  --band-odd-bg: #F7F5F3;
+  --band-even-bg: #FFFFFF;
+  --obj-tag-bg: rgba(30,58,138,0.06);
+  --obj-tag-color: #6B7280;
+  --obj-card-title: #1a1a1a;
+  --modal-bg: #FFFFFF;
+  --modal-field-border: #F3F4F6;
+  --modal-label-color: #9CA3AF;
+  --modal-close-bg: #FFFFFF;
+  --modal-close-hover: #F3F4F6;
+  --inst-border-1: #FFA6AD;
+  --inst-border-2: #9EDEFB;
+  --inst-border-3: #B7F5BF;
+  --advanced-toggle-color: #1E3A8A;
+  --scrollbar-color: rgba(30,58,138,0.15);
+}
+
+body.dark {
+  --hero-overlay: rgba(26,24,22,0.7);
+  --hero-overlay-mid: rgba(26,24,22,0.35);
+  --hero-overlay-end: rgba(26,24,22,0.85);
+  --filter-focus: #71DEA0;
+  --filter-focus-shadow: rgba(113,222,160,0.1);
+  --band-odd-bg: #242220;
+  --band-even-bg: #1A1816;
+  --obj-tag-bg: rgba(158,222,251,0.1);
+  --obj-tag-color: #A8A29E;
+  --obj-card-title: #F5F5F4;
+  --modal-bg: #2A2826;
+  --modal-field-border: #3D3935;
+  --modal-label-color: #A8A29E;
+  --modal-close-bg: #2A2826;
+  --modal-close-hover: #3D3935;
+  --inst-border-1: #FFA6AD;
+  --inst-border-2: #9EDEFB;
+  --inst-border-3: #71DEA0;
+  --advanced-toggle-color: #9EDEFB;
+  --scrollbar-color: rgba(158,222,251,0.2);
+}
+
+/* ===== REPO HERO ===== */
+.repo-hero {
+  min-height: 250px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 8rem 2rem 4rem;
+  background:
+    linear-gradient(to bottom, var(--hero-overlay) 0%, var(--hero-overlay-mid) 50%, var(--hero-overlay-end) 100%),
+    url('images/fotoaereasalitrera.JPG') center/cover no-repeat;
+  color: #fff;
+}
+.repo-hero h1 {
+  font-size: 5rem;
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 1.05;
+  margin-bottom: 1rem;
+}
+.repo-hero p {
+  font-size: 1.15rem;
+  opacity: 0.85;
+  max-width: 600px;
+}
+@media (max-width: 768px) {
+  .repo-hero h1 { font-size: 3rem; }
+  .repo-hero { padding: 6rem 1.5rem 3rem; }
+}
+@media (max-width: 320px) {
+  .repo-hero h1 { font-size: 2.2rem; }
+}
+
+/* ===== FILTERS ===== */
+.filters-section {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 2.5rem 0;
+}
+.filters-primary {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+.filter-select {
+  background: var(--bg-card);
+  border: 1.5px solid var(--border);
+  color: var(--text-body);
+  padding: 0.75rem 1.25rem;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.9rem;
+  border-radius: 10px;
+  outline: none;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M6 8L1 3h10z' fill='%236B7280'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  padding-right: 2.5rem;
+  min-width: 180px;
+  transition: border-color 0.2s, background 0.3s;
+}
+.filter-select:focus {
+  border-color: var(--filter-focus);
+  box-shadow: 0 0 0 3px var(--filter-focus-shadow);
+}
+.filter-select option {
+  background: var(--bg-card);
+  color: var(--text-body);
+}
+.filter-search {
+  flex: 1;
+  min-width: 200px;
+  background: var(--bg-card);
+  border: 1.5px solid var(--border);
+  color: var(--text-body);
+  padding: 0.75rem 1.25rem;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.9rem;
+  border-radius: 10px;
+  outline: none;
+  transition: border-color 0.2s, background 0.3s;
+}
+.filter-search:focus {
+  border-color: var(--filter-focus);
+  box-shadow: 0 0 0 3px var(--filter-focus-shadow);
+}
+.filter-search::placeholder {
+  color: var(--text-muted);
+}
+.advanced-toggle {
+  background: none;
+  border: none;
+  color: var(--advanced-toggle-color);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0.5rem 0;
+  transition: color 0.3s;
+}
+.advanced-toggle:hover {
+  color: var(--green);
+}
+.filters-advanced {
+  display: none;
+  gap: 1rem;
+  flex-wrap: wrap;
+  padding: 1rem 0;
+  border-top: 1px solid var(--border);
+}
+.filters-advanced.active {
+  display: flex;
+}
+@media (max-width: 768px) {
+  .filters-section { padding: 1.5rem; }
+  .filters-primary { flex-direction: column; }
+  .filter-select { min-width: 100%; }
+}
+
+/* ===== INSTITUTION BANDS ===== */
+.institution-band {
+  padding: 3rem 0 2rem;
+  position: relative;
+  transition: background 0.3s;
+}
+.institution-band:nth-child(odd) {
+  background: var(--band-odd-bg);
+}
+.institution-band:nth-child(even) {
+  background: var(--band-even-bg);
+}
+.institution-band + .institution-band {
+  border-top: 1px solid var(--border);
+}
+.band-header {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2.5rem 1.5rem;
+  display: flex;
+  align-items: baseline;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+.band-header h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--text-heading);
+  padding-left: 1rem;
+  position: relative;
+}
+.institution-band:nth-child(1) .band-header h2 { border-left: 4px solid var(--inst-border-1); }
+.institution-band:nth-child(2) .band-header h2 { border-left: 4px solid var(--inst-border-2); }
+.institution-band:nth-child(3) .band-header h2 { border-left: 4px solid var(--inst-border-3); }
+.band-header .location {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+.band-header .count {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-left: auto;
+}
+.band-collection-label {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2.5rem 1rem;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--text-muted);
+}
+
+/* ===== HORIZONTAL OBJECT GALLERY ===== */
+.obj-gallery {
+  display: flex;
+  gap: 1.5rem;
+  overflow-x: auto;
+  padding: 0 2.5rem 2rem;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-color) transparent;
+}
+.obj-gallery::-webkit-scrollbar { height: 4px; }
+.obj-gallery::-webkit-scrollbar-track { background: transparent; }
+.obj-gallery::-webkit-scrollbar-thumb { background: var(--scrollbar-color); border-radius: 2px; }
+
+/* ===== OBJECT CARDS ===== */
+.obj-card {
+  flex: 0 0 260px;
+  scroll-snap-align: start;
+  cursor: pointer;
+  transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+}
+.obj-card:hover { transform: translateY(-6px); }
+.obj-thumb {
+  width: 100%;
+  aspect-ratio: 3/4;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  color: rgba(255,255,255,0.25);
+  margin-bottom: 1rem;
+  position: relative;
+  overflow: hidden;
+}
+.obj-card[data-inst="atacama-arq"] .obj-thumb { background: linear-gradient(160deg, #1E3A5F, #1A4B6E, #1E3A8A); }
+.obj-card[data-inst="atacama-min"] .obj-thumb { background: linear-gradient(160deg, #0F3460, #16697A, #0E4D64); }
+.obj-card[data-inst="archivo"] .obj-thumb { background: linear-gradient(160deg, #2D1B69, #4A1D8E, #3B1E7A); }
+.obj-card[data-inst="cncr"] .obj-thumb { background: linear-gradient(160deg, #064E3B, #0D5E4F, #115E59); }
+
+.obj-info h4 {
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.35;
+  margin-bottom: 0.5rem;
+  color: var(--obj-card-title);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.obj-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+.obj-tag {
+  font-size: 0.65rem;
+  padding: 0.2rem 0.5rem;
+  background: var(--obj-tag-bg);
+  color: var(--obj-tag-color);
+  letter-spacing: 0.02em;
+  border-radius: 4px;
+  transition: background 0.3s;
+}
+
+@media (max-width: 768px) {
+  .obj-card { flex: 0 0 220px; }
+  .obj-gallery { padding: 0 1.5rem 1.5rem; gap: 1rem; }
+  .band-header { padding: 0 1.5rem 1rem; }
+  .band-header h2 { font-size: 1.5rem; }
+  .band-collection-label { padding: 0 1.5rem 0.75rem; }
+}
+@media (max-width: 320px) {
+  .obj-card { flex: 0 0 200px; }
+}
+
+/* ===== FULLSCREEN MODAL ===== */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+.modal-overlay.active { display: flex; }
+.modal {
+  max-width: 900px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background: var(--modal-bg);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  transition: background 0.3s, border-color 0.3s;
+}
+.modal-image {
+  aspect-ratio: 3/4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 5rem;
+  color: rgba(255,255,255,0.2);
+  position: relative;
+}
+.modal-details {
+  padding: 3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.modal-close {
+  position: fixed;
+  top: 2rem;
+  right: 2rem;
+  background: var(--modal-close-bg);
+  border: 1px solid var(--border);
+  color: var(--text-heading);
+  width: 44px;
+  height: 44px;
+  cursor: pointer;
+  font-size: 1.2rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.3s;
+  z-index: 2001;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+.modal-close:hover { background: var(--modal-close-hover); }
+.modal-inst-label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--text-muted);
+  margin-bottom: 1rem;
+}
+.modal-details h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  margin-bottom: 2rem;
+  line-height: 1.15;
+  color: var(--text-heading);
+}
+.modal-field {
+  display: flex;
+  gap: 1.5rem;
+  padding: 0.85rem 0;
+  border-bottom: 1px solid var(--modal-field-border);
+}
+.modal-field:last-child { border-bottom: none; }
+.modal-field .label {
+  color: var(--modal-label-color);
+  font-size: 0.8rem;
+  min-width: 100px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.modal-field .value {
+  font-size: 0.95rem;
+  color: var(--text-body);
+}
+@media (max-width: 768px) {
+  .modal { grid-template-columns: 1fr; }
+  .modal-image { aspect-ratio: 16/9; }
+  .modal-details { padding: 2rem; }
+  .modal-details h2 { font-size: 1.5rem; }
+}
+  </style>
+</head>
+<body>
+
+<!-- FLOATING NAV -->
+<nav class="floating-nav">
+  <a href="index.html" class="logo">
+    <img src="images/servare-logo.png" alt="Servare">
+  </a>
+  <button class="hamburger" id="hamburgerBtn" onclick="toggleMenu()" aria-label="Abrir menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- FULLSCREEN MENU OVERLAY -->
+<div class="menu-overlay" id="menuOverlay">
+  <ul class="menu-links">
+    <li><a href="index.html" onclick="toggleMenu()">Inicio</a></li>
+    <li><a href="en-desarrollo.html" onclick="toggleMenu()">Biblioteca</a></li>
+    <li><a href="en-desarrollo.html" onclick="toggleMenu()">Repositorio</a></li>
+    <li>
+      <button class="menu-theme-toggle" onclick="toggleTheme()" aria-label="Cambiar tema">
+        <span class="icon-sun"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg></span>
+        <span class="icon-moon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></span>
+      </button>
+    </li>
+  </ul>
+</div>
+
+<!-- HERO -->
+<section class="repo-hero">
+  <h1 class="fade-in">Repositorio Patrimonial</h1>
+  <p class="fade-in">Explora colecciones de instituciones patrimoniales de Chile. Un catalogo abierto para investigar, comparar y descubrir.</p>
+</section>
+
+<!-- FILTERS -->
+<div class="filters-section">
+  <div class="filters-primary">
+    <select class="filter-select">
+      <option value="">Tipo de Institucion</option>
+      <option>Museo</option>
+      <option>Archivo</option>
+      <option>Centro de Conservacion</option>
+    </select>
+    <select class="filter-select">
+      <option value="">Institucion</option>
+      <option>Museo Regional de Atacama</option>
+      <option>Archivo Nacional Historico</option>
+      <option>Centro de Conservacion CNCR</option>
+    </select>
+    <select class="filter-select">
+      <option value="">Material</option>
+      <option>Ceramica</option>
+      <option>Litico</option>
+      <option>Textil</option>
+      <option>Metal</option>
+      <option>Documento</option>
+      <option>Madera</option>
+    </select>
+    <input type="text" class="filter-search" placeholder="Buscar objetos...">
+  </div>
+  <button class="advanced-toggle" onclick="this.nextElementSibling.classList.toggle('active'); this.textContent = this.nextElementSibling.classList.contains('active') ? 'Ocultar filtros avanzados' : 'Filtros avanzados +';">Filtros avanzados +</button>
+  <div class="filters-advanced">
+    <select class="filter-select"><option value="">Creador</option></select>
+    <select class="filter-select"><option value="">Fabrica / Taller</option></select>
+    <select class="filter-select"><option value="">Tecnica</option></select>
+    <select class="filter-select"><option value="">Periodo</option><option>Arcaico</option><option>Formativo</option><option>Colonial</option><option>Siglo XIX</option><option>Siglo XX</option></select>
+    <select class="filter-select"><option value="">Clasificacion</option></select>
+    <select class="filter-select"><option value="">Subclasificacion</option></select>
+  </div>
+</div>
+
+<!-- INSTITUTION 1: Museo Regional de Atacama -->
+<div class="institution-band">
+  <div class="band-header">
+    <h2 class="fade-in">Museo Regional de Atacama</h2>
+    <span class="location">Copiapo</span>
+    <span class="count">8 objetos &middot; 2 colecciones</span>
+  </div>
+
+  <div class="band-collection-label">Coleccion: Arqueologia</div>
+  <div class="obj-gallery">
+    <div class="obj-card fade-in" data-inst="atacama-arq" onclick="openModal(this)" data-name="Ceramica Diaguita Policroma" data-type="Ceramica" data-material="Arcilla cocida" data-period="Periodo Intermedio Tardio" data-inst-name="Museo Regional de Atacama" data-collection="Arqueologia">
+      <div class="obj-thumb">&#127858;</div>
+      <div class="obj-info">
+        <h4>Ceramica Diaguita Policroma</h4>
+        <div class="obj-tags">
+          <span class="obj-tag">Ceramica</span>
+          <span class="obj-tag">Arcilla cocida</span>
+          <span class="obj-tag">P. Intermedio Tardio</span>
+        </div>
+      </div>
+    </div>
+    <div class="obj-card fade-in" data-inst="atacama-arq" onclick="openModal(this)" data-name="Punta de Proyectil Obsidiana" data-type="Litico" data-material="Obsidiana" data-period="Arcaico Tardio" data-inst-name="Museo Regional de Atacama" data-collection="Arqueologia">
+      <div class="obj-thumb">&#9670;</div>
+      <div class="obj-info">
+        <h4>Punta de Proyectil Obsidiana</h4>
+        <div class="obj-tags">
+          <span class="obj-tag">Litico</span>
+          <span class="obj-tag">Obsidiana</span>
+          <span class="obj-tag">Arcaico Tardio</span>
+        </div>
+      </div>
+    </div>
+    <div class="obj-card fade-in" data-inst="atacama-arq" onclick="openModal(this)" data-name="Textil Funerario Atacameno" data-type="Textil" data-material="Fibra de camelido" data-period="Periodo Medio" data-inst-name="Museo Regional de Atacama" data-collection="Arqueologia">
+      <div class="obj-thumb">&#127912;</div>
+      <div class="obj-info">
+        <h4>Textil Funerario Atacameno</h4>
+        <div class="obj-tags">
+          <span class="obj-tag">Textil</span>
+          <span class="obj-tag">Fibra de camelido</span>
+          <span class="obj-tag">Periodo Medio</span>
+        </div>
+      </div>
+    </div>
+    <div class="obj-card fade-in" data-inst="atacama-arq" onclick="openModal(this)" data-name="Hacha de Piedra Pulida" data-type="Litico" data-material="Basalto" data-period="Formativo" data-inst-name="Museo Regional de Atacama" data-collection="Arqueologia">
+      <div class="obj-thumb">&#9874;</div>
+      <div class="obj-info">
+        <h4>Hacha de Piedra Pulida</h4>
+        <div class="obj-tags">
+          <span class="obj-tag">Litico</span>
+          <span class="obj-tag">Basalto</span>
+          <span class="obj-tag">Formativo</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="band-collection-label">Coleccion: Mineria Historica</div>
+  <div class="obj-gallery">
+    <div class="obj-card fade-in" data-inst="atacama-min" onclick="openModal(this)" data-name="Lampara de Minero (Carburo)" data-type="Metal" data-material="Bronce y laton" data-period="Siglo XIX" data-inst-name="Museo Regional de Atacama" data-collection="Mineria Historica">
+      <div class="obj-thumb">&#128294;</div>
+      <div class="obj-info">
+        <h4>Lampara de Minero (Carburo)</h4>
+        <div class="obj-tags">
+          <span class="obj-tag">Metal</span>
+          <span class="obj-tag">Bronce y laton</span>
+          <span class="obj-tag">Siglo XIX</span>
+        </div>
+      </div>
+    </div>
+    <div class="obj-card fade-in" data-inst="atacama-min" onclick="openModal(this)" data-name="Ficha Salitrera Oficina Santa Laura" data-type="Numismatica" data-material="Aluminio" data-period="1920s" data-inst-name="Museo Regional de Atacama" data-collection="Mineria Historica">
+      <div class="obj-thumb">&#9898;</div>
+      <div class="obj-info">
+        <h4>Ficha Salitrera Oficina Santa Laura</h4>
+        <div class="obj-tags">
+          <span class="obj-tag">Numismatica</span>
+          <span class="obj-tag">Aluminio</span>
+          <span class="obj-tag">1920s</span>
+        </div>
+      </div>
+    </div>
+    <div class="obj-card fade-in" data-inst="atacama-min" onclick="openModal(this)" data-name="Plano Topografico Mina La Atacamena" data-type="Documento" data-material="Papel y tinta" data-period="1890" data-inst-name="Museo Regional de Atacama" data-collection="Mineria Historica">
+      <div class="obj-thumb">&#128220;</div>
+      <div class="obj-info">
+        <h4>Plano Topografico Mina La Atacamena</h4>
+        <div class="obj-tags">
+          <span class="obj-tag">Documento</span>
+          <span class="obj-tag">Papel y tinta</span>
+          <span class="obj-tag">1890</span>
+        </div>
+      </div>
+    </div>
+    <div class="obj-card fade-in" data-inst="atacama-min" onclick="openModal(this)" data-name="Mineral de Cobre Nativo" data-type="Muestra geologica" data-material="Cobre" data-period="Sin periodo" data-inst-name="Museo Regional de Atacama" data-collection="Mineria Historica">
+      <div class="obj-thumb">&#9853;</div>
+      <div class="obj-info">
+        <h4>Mineral de Cobre Nativo</h4>
+        <div class="obj-tags">
+          <span class="obj-tag">Muestra geologica</span>
+          <span class="obj-tag">Cobre</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- INSTITUTION 2: Archivo Nacional Historico -->
+<div class="institution-band">
+  <div class="band-header">
+    <h2 class="fade-in">Archivo Nacional Historico</h2>
+    <span class="location">Santiago</span>
+    <span class="count">6 objetos &middot; 1 coleccion</span>
+  </div>
+
+  <div class="band-collection-label">Coleccion: Documentos Coloniales</div>
+  <div class="obj-gallery">
+    <div class="obj-card fade-in" data-inst="archivo" onclick="openModal(this)" data-name="Acta del Cabildo de Santiago 1598" data-type="Documento" data-material="Papel vitela" data-period="Colonial" data-inst-name="Archivo Nacional Historico" data-collection="Documentos Coloniales">
+      <div class="obj-thumb">&#128220;</div>
+      <div class="obj-info">
+        <h4>Acta del Cabildo de Santiago 1598</h4>
+        <div class="obj-tags">
+          <span class="obj-tag">Documento</span>
+          <span class="obj-tag">Papel vitela</span>
+          <span class="obj-tag">Colonial</span>
+        </div>
+      </div>
+    </div>
+    <div class="obj-card fade-in" data-inst="archivo" onclick="openModal(this)" data-name="Mapa de la Capitania General 1750" data-type="Cartografia" data-material="Papel y tinta" data-period="Colonial" data-inst-name="Archivo Nacional Historico" data-collection="Documentos Coloniales">
+      <div class="obj-thumb">&#128506;</div>
+      <div class="obj-info">
+        <h4>Mapa de la Capitania General 1750</h4>
+        <div class="obj-tags">
+          <span class="obj-tag">Cartografia</span>
+          <span class="obj-tag">Papel y tinta</span>
+          <span class="obj-tag">Colonial</span>
+        </div>
+      </div>
+    </div>
+    <div class="obj-card fade-in" data-inst="archivo" onclick="openModal(this)" data-name="Cedula Real de Encomienda" data-type="Documento" data-material="Pergamino" data-period="Siglo XVII" data-inst-name="Archivo Nacional Historico" data-collection="Documentos Coloniales">
+      <div class="obj-thumb">&#128220;</div>
+      <div class="obj-info">
+        <h4>Cedula Real de Encomienda</h4>
+        <div class="obj-tags">
+          <span class="obj-tag">Documento</span>
+          <span class="obj-tag">Pergamino</span>
+          <span class="obj-tag">Siglo XVII</span>
+        </div>
+      </div>
+    </div>
+    <div class="obj-card fade-in" data-inst="archivo" onclick="openModal(this)" data-name="Libro de Bautismos Parroquia El Sagrario" data-type="Libro" data-material="Papel y cuero" data-period="Siglo XVIII" data-inst-name="Archivo Nacional Historico" data-collection="Documentos Coloniales">
+      <div class="obj-thumb">&#128214;</div>
+      <div class="obj-info">
+        <h4>Libro de Bautismos Parroquia El Sagrario</h4>
+        <div class="obj-tags">
+          <span class="obj-tag">Libro</span>
+          <span class="obj-tag">Papel y cuero</span>
+          <span class="obj-tag">Siglo XVIII</span>
+        </div>
+      </div>
+    </div>
+    <div class="obj-card fade-in" data-inst="archivo" onclick="openModal(this)" data-name="Carta de Pedro de Valdivia" data-type="Documento" data-material="Papel" data-period="Siglo XVI" data-inst-name="Archivo Nacional Historico" data-collection="Documentos Coloniales">
+      <div class="obj-thumb">&#9993;</div>
+      <div class="obj-info">
+        <h4>Carta de Pedro de Valdivia</h4>
+        <div class="obj-tags">
+          <span class="obj-tag">Documento</span>
+          <span class="obj-tag">Papel</span>
+          <span class="obj-tag">Siglo XVI</span>
+        </div>
+      </div>
+    </div>
+    <div class="obj-card fade-in" data-inst="archivo" onclick="openModal(this)" data-name="Ordenanzas de Mineria Colonial" data-type="Documento" data-material="Papel y tinta" data-period="Siglo XVIII" data-inst-name="Archivo Nacional Historico" data-collection="Documentos Coloniales">
+      <div class="obj-thumb">&#128220;</div>
+      <div class="obj-info">
+        <h4>Ordenanzas de Mineria Colonial</h4>
+        <div class="obj-tags">
+          <span class="obj-tag">Documento</span>
+          <span class="obj-tag">Papel y tinta</span>
+          <span class="obj-tag">Siglo XVIII</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- INSTITUTION 3: Centro de Conservacion CNCR -->
+<div class="institution-band">
+  <div class="band-header">
+    <h2 class="fade-in">Centro de Conservacion CNCR</h2>
+    <span class="location">Santiago</span>
+    <span class="count">4 objetos &middot; 1 coleccion</span>
+  </div>
+
+  <div class="band-collection-label">Coleccion: Restauraciones Destacadas</div>
+  <div class="obj-gallery">
+    <div class="obj-card fade-in" data-inst="cncr" onclick="openModal(this)" data-name="Retablo Iglesia de Chiu Chiu (Restaurado)" data-type="Madera policromada" data-material="Madera y pan de oro" data-period="Siglo XVII" data-inst-name="Centro de Conservacion CNCR" data-collection="Restauraciones Destacadas">
+      <div class="obj-thumb">&#9769;</div>
+      <div class="obj-info">
+        <h4>Retablo Iglesia de Chiu Chiu (Restaurado)</h4>
+        <div class="obj-tags">
+          <span class="obj-tag">Madera policromada</span>
+          <span class="obj-tag">Siglo XVII</span>
+        </div>
+      </div>
+    </div>
+    <div class="obj-card fade-in" data-inst="cncr" onclick="openModal(this)" data-name="Momia Chinchorro (Conservacion)" data-type="Restos humanos" data-material="Material organico" data-period="5000 a.C." data-inst-name="Centro de Conservacion CNCR" data-collection="Restauraciones Destacadas">
+      <div class="obj-thumb">&#9775;</div>
+      <div class="obj-info">
+        <h4>Momia Chinchorro (Conservacion)</h4>
+        <div class="obj-tags">
+          <span class="obj-tag">Restos humanos</span>
+          <span class="obj-tag">Material organico</span>
+          <span class="obj-tag">5000 a.C.</span>
+        </div>
+      </div>
+    </div>
+    <div class="obj-card fade-in" data-inst="cncr" onclick="openModal(this)" data-name="Locomotora N3071 (Intervencion)" data-type="Metal industrial" data-material="Hierro y acero" data-period="1910" data-inst-name="Centro de Conservacion CNCR" data-collection="Restauraciones Destacadas">
+      <div class="obj-thumb">&#128642;</div>
+      <div class="obj-info">
+        <h4>Locomotora N3071 (Intervencion)</h4>
+        <div class="obj-tags">
+          <span class="obj-tag">Metal industrial</span>
+          <span class="obj-tag">Hierro y acero</span>
+          <span class="obj-tag">1910</span>
+        </div>
+      </div>
+    </div>
+    <div class="obj-card fade-in" data-inst="cncr" onclick="openModal(this)" data-name="Oleo Virgen del Cerro (Restaurado)" data-type="Pintura" data-material="Oleo sobre tela" data-period="Siglo XVIII" data-inst-name="Centro de Conservacion CNCR" data-collection="Restauraciones Destacadas">
+      <div class="obj-thumb">&#128444;</div>
+      <div class="obj-info">
+        <h4>Oleo Virgen del Cerro (Restaurado)</h4>
+        <div class="obj-tags">
+          <span class="obj-tag">Pintura</span>
+          <span class="obj-tag">Oleo sobre tela</span>
+          <span class="obj-tag">Siglo XVIII</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="objectModal" onclick="if(event.target===this)closeModal()">
+  <button class="modal-close" onclick="closeModal()">&#10005;</button>
+  <div class="modal">
+    <div class="modal-image" id="modalImage"></div>
+    <div class="modal-details">
+      <div class="modal-inst-label" id="modalInst"></div>
+      <h2 id="modalName"></h2>
+      <div class="modal-field"><span class="label">Tipo</span><span class="value" id="modalType"></span></div>
+      <div class="modal-field"><span class="label">Material</span><span class="value" id="modalMaterial"></span></div>
+      <div class="modal-field"><span class="label">Periodo</span><span class="value" id="modalPeriod"></span></div>
+      <div class="modal-field"><span class="label">Coleccion</span><span class="value" id="modalCollection"></span></div>
+      <div class="modal-field"><span class="label">Institucion</span><span class="value" id="modalInstName"></span></div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer-section">
+  <div class="footer-inner">
+    <ul class="footer-links">
+      <li><a href="index.html">Inicio</a></li>
+      <li><a href="en-desarrollo.html">Biblioteca</a></li>
+      <li><a href="en-desarrollo.html">Repositorio</a></li>
+      <li><a href="index.html#sec6">Contacto</a></li>
+    </ul>
+    <span class="footer-copy">&copy; 2026 Servare. Todos los derechos reservados.</span>
+  </div>
+</footer>
+
+<!-- JavaScript (modular) -->
+<script src="js/main.js"></script>
+
+<!-- Page-specific JavaScript -->
+<script>
+/* Modal gradients */
+var gradients = {
+  'atacama-arq': 'linear-gradient(160deg, #1E3A5F, #1A4B6E, #1E3A8A)',
+  'atacama-min': 'linear-gradient(160deg, #0F3460, #16697A, #0E4D64)',
+  'archivo': 'linear-gradient(160deg, #2D1B69, #4A1D8E, #3B1E7A)',
+  'cncr': 'linear-gradient(160deg, #064E3B, #0D5E4F, #115E59)'
+};
+
+function openModal(card) {
+  var d = card.dataset;
+  var modalImg = document.getElementById('modalImage');
+  modalImg.style.background = gradients[d.inst] || '#E5E7EB';
+  modalImg.innerHTML = card.querySelector('.obj-thumb').innerHTML;
+  document.getElementById('modalInst').textContent = d.instName + ' / ' + d.collection;
+  document.getElementById('modalName').textContent = d.name;
+  document.getElementById('modalType').textContent = d.type;
+  document.getElementById('modalMaterial').textContent = d.material;
+  document.getElementById('modalPeriod').textContent = d.period;
+  document.getElementById('modalCollection').textContent = d.collection;
+  document.getElementById('modalInstName').textContent = d.instName;
+  document.getElementById('objectModal').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  document.getElementById('objectModal').classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeModal();
+});
+</script>
+</body>
+</html>

@@ -88,8 +88,15 @@ SERVICE_ID: 'service_ben531s'
 TEMPLATE_ID: 'template_j2qufea'
 PUBLIC_KEY: 'ywSkpDeLSkQmNjMxF'
 ```
+**Requires** `https://api.emailjs.com` in Cloudflare CSP `connect-src` directive.
 
 **Theme Toggle** — `body.dark` class, stored in `localStorage('servare-theme')`.
+
+**Cloudflare CSP** — Content Security Policy configured in Cloudflare Transform Rules:
+```
+default-src 'self' https:; script-src 'self' 'unsafe-inline' https://cdn.auth0.com https://cdn.jsdelivr.net https://fonts.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https:; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://servare-91966.web.app https://api.emailjs.com
+```
+When adding new external API calls, update `connect-src`. When adding new script CDNs, update `script-src`.
 
 ## Deployment
 
@@ -107,9 +114,9 @@ PUBLIC_KEY: 'ywSkpDeLSkQmNjMxF'
 6. **CTA** — Call to action with access button
 7. **Contacto** — Info + EmailJS form
 
-## Future Pages (planned)
-- `biblioteca.html` — Curated heritage library (mockup-k-biblioteca.html)
-- `repositorio.html` — Public object repository (mockup-k-repositorio.html)
+## Additional Pages
+- `biblioteca.html` — Curated heritage library (implemented, based on mockup-k-biblioteca.html)
+- `repositorio.html` — Public object repository (implemented, based on mockup-k-repositorio.html)
 
 ## Contact
 - Email: servare.dp@gmail.com
