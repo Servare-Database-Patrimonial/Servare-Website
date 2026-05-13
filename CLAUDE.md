@@ -1,124 +1,148 @@
 # CLAUDE.md — Servare Website
 
+Static corporate website for **Servare**, a heritage management platform.
+Served from a Docker container (Nginx) on the Oracle Cloud VM, fronted by Traefik + Cloudflare.
+
+The infra-level config (docker-compose, Traefik labels, env) lives in the sibling repo `app-web/docker-compose.yml` (deployed to `~/servare/` on the VM).
+
+---
+
 ## Development Commands
 
 ```bash
-npm install        # Install dependencies
-npm run dev        # Dev server at http://localhost:3001
-npm run preview    # Preview build
-./sync-docs.sh     # Sync public/ → docs/ (required before git push)
+npm install
+npm run dev        # local dev server at http://localhost:3001
+npm run preview    # preview build
 ```
 
-## Deployment Workflow
+Deploy to the VM (from `~/servare/` on the VM, where docker-compose lives):
+```bash
+docker compose up -d --build website
+docker compose logs -f website
+```
 
-1. Edit files in `public/` (source of truth)
-2. Run `./sync-docs.sh` to copy to `docs/`
-3. `git add public/ docs/` then commit and push
-4. GitHub Pages serves from `docs/` on branch `main`
+**Source of truth is `public/`.** Edit there, commit, pull on the VM, rebuild.
 
-**IMPORTANT**: Never edit `docs/` directly — always edit `public/` and sync.
+> Legacy: `sync-docs.sh` and `docs/` are leftovers from the GitHub Pages era. Not part of the current deploy. Don't update them.
+
+---
 
 ## Project Overview
 
-Static corporate website for **Servare**, a heritage management platform.
-- **Website** (`/`) — Marketing landing page (GitHub Pages)
-- **App** (`/app`) — Compiled React Native Web app (Firebase Hosting)
+- **Website** (`servare.cloud`) — marketing landing.
+- **App** (`app.servare.cloud`) — React Native Web app served from the same VM (different container).
 
-Design: **Model K** — Immersive Gallery with dark/light mode toggle.
-Reference mockups in `/mockups/`.
+Design: **Model K** — Immersive Gallery with dark/light mode toggle. Reference mockups in `/mockups/`.
+
+---
 
 ## Architecture
 
 ### File Structure
 ```
-public/
-  index.html                 # Landing page
+public/                    # source of truth, served by nginx
+  index.html               # landing
+  biblioteca.html          # curated heritage library
+  repositorio.html         # public object repository
   css/
-    variables.css            # Theme variables (light/dark)
-    base.css                 # Reset, typography, buttons, animations
-    nav.css                  # Floating nav, hamburger, menu overlay, side dots
-    sections.css             # Hero, propuesta, solucion, herramientas, equipo, CTA
-    contact.css              # Contact section + form
-    footer.css               # Footer
+    variables.css          # theme variables (light/dark)
+    base.css               # reset, typography, buttons, animations
+    nav.css                # floating nav, hamburger, overlay, side dots
+    sections.css           # hero, propuesta, solucion, herramientas, equipo, CTA
+    contact.css            # contact section + form
+    footer.css
   js/
-    config.js                # URL configuration (dev/prod)
-    nav.js                   # Nav scroll, theme toggle, menu toggle
-    main.js                  # Side dots, fade-in observers
-    contact.js               # EmailJS integration
-  images/                    # Website assets
-  app/                       # React Native Web build (deployed separately)
-mockups/                     # Design references (A-K)
+    config.js              # URL config (APP_URL, WEBSITE_URL, contact)
+    nav.js                 # nav scroll, theme toggle, menu toggle
+    main.js                # side dots, fade-in observers
+    contact.js             # EmailJS integration
+  images/
+mockups/                   # design references (A-K)
+Dockerfile                 # nginx:alpine + public/
+nginx.conf                 # nginx site config
 ```
 
 ### Design System
 - **Font**: DM Sans (400, 500, 700) — 1.125rem body, line-height 1.8
-- **Light**: Bg #F2E8DE, alt sections white
-- **Dark**: Bg #1A1816 (warm museum-at-night)
-- **Accents from logo**: #F2E8DE, #B7F5BF, #71DEA0, #9EDEFB, #FFA6AD
-- **Brand palette**: Blue #1E3A8A, Green #059669, Amber #D97706
+- **Light**: bg `#F2E8DE`, alt sections white
+- **Dark**: bg `#1A1816` (warm museum-at-night)
+- **Accents from logo**: `#F2E8DE`, `#B7F5BF`, `#71DEA0`, `#9EDEFB`, `#FFA6AD`
+- **Brand palette**: blue `#1E3A8A`, green `#059669`, amber `#D97706`
 - **Breakpoints**: 320px, 520px, 768px, 1200px
-- **Target audience**: Users 45+ — large text, high contrast, clear navigation
+- **Target audience**: users 45+ — large text, high contrast, clear navigation
 
-### Mobile Responsive (20 Mar 2026)
-- Scroll snap disabled on `< 768px` (causes janky UX on touch)
-- `snap-section` min-height auto on mobile (content-driven height)
+### Mobile Responsive
+- Scroll snap disabled on `< 768px`
 - Side dots hidden on `< 520px`
-- Flip card "Ver solución" hint hidden on mobile (hover not applicable)
-- Problems label stacks vertically on mobile (no `white-space: nowrap`)
-- Hero h1 scales: 2.5rem (768px) → 2rem (520px) → 1.7rem (320px)
-- Award stats: 3-col on tablet, 1-col horizontal on `< 520px`
+- Hero h1 scales: 2.5rem → 2rem → 1.7rem
 - Footer stacks centered on mobile
-- CTA/Equipo headings scale down progressively
 
 ### Navigation Pattern
-- Hamburger menu always visible (no horizontal nav links)
+- Hamburger menu always visible
 - Full-screen overlay menu with page links + theme toggle
 - Floating nav: transparent on hero, solid on scroll
 - Side dots for section navigation
 
-### Key Integrations
+---
 
-**App Redirect** — All "Beta Cerrada" / "App" buttons call `redirectToApp()` from `config.js`.
-Redirects to `https://servare-91966.web.app` in production, `http://localhost:3000` in dev.
-(Pending: change to `https://app.servare.cloud` once custom domain is configured)
+## Key Integrations
 
-**EmailJS Contact Form** — `contact.js` handles form submission with categorized labels.
-```
-SERVICE_ID: 'service_ben531s'
-TEMPLATE_ID: 'template_j2qufea'
-PUBLIC_KEY: 'ywSkpDeLSkQmNjMxF'
-```
-**Requires** `https://api.emailjs.com` in Cloudflare CSP `connect-src` directive.
+### App Redirect
+`redirectToApp()` in `public/js/config.js` → `https://app.servare.cloud` (same VM, Traefik route).
 
-**Theme Toggle** — `body.dark` class, stored in `localStorage('servare-theme')`.
+### EmailJS Contact Form
+`public/js/contact.js`. Credentials:
+```
+SERVICE_ID:  service_ben531s
+TEMPLATE_ID: template_j2qufea
+PUBLIC_KEY:  ywSkpDeLSkQmNjMxF
+```
+Requires `https://api.emailjs.com` in CSP `connect-src`.
 
-**Cloudflare CSP** — Content Security Policy configured in Cloudflare Transform Rules:
-```
-default-src 'self' https:; script-src 'self' 'unsafe-inline' https://cdn.auth0.com https://cdn.jsdelivr.net https://fonts.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https:; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://servare-91966.web.app https://api.emailjs.com
-```
-When adding new external API calls, update `connect-src`. When adding new script CDNs, update `script-src`.
+### Theme Toggle
+`body.dark` class, persisted in `localStorage('servare-theme')`.
+
+### Cloudflare CSP
+Configured in Cloudflare Transform Rules (zone `servare.cloud`). `connect-src` must include:
+`'self'`, `https://api.servare.cloud`, `https://auth.servare.cloud`, `https://api.emailjs.com`.
+
+When adding external API calls or script CDNs, update the Transform Rule in the Cloudflare dashboard — not just the origin nginx config (Cloudflare's rule overrides origin headers).
+
+---
 
 ## Deployment
 
-**Website**: Edit `public/` → run `./sync-docs.sh` → push `main` → GitHub Pages (from `/docs`) → `servare.cloud`
-**App**: Separate deploy from Servare App-Web → Firebase Hosting → `app.servare.cloud`
-**Cloudflare**: `servare.cloud/app` redirects to Firebase app hosting
-**Logo**: Dual logos — `servare-logo-light.png` (dark text, light mode) / `servare-logo-dark.png` (white text, dark mode). Uses `.show-light`/`.show-dark` classes, no CSS filter.
+```
+Cloudflare (DNS + proxy)
+  └── servare.cloud → Oracle VM (146.235.242.138)
+        └── Traefik (reverse proxy)
+              ├── servare.cloud         → servare-website (nginx + public/)
+              ├── app.servare.cloud     → servare-frontend
+              ├── api.servare.cloud     → servare-api
+              └── auth.servare.cloud    → servare-logto
+```
+
+- **VM**: Oracle Cloud Ampere A1 Always Free, Santiago region
+- **SSL**: Traefik with Cloudflare DNS challenge (token in VM `.env`)
+- **Traefik dashboard**: NOT exposed publicly
+- **Cutover from GitHub Pages → VM**: completed 6-May-2026
+
+---
 
 ## Landing Page Sections
-1. **Hero** — Full-screen photo + title (uppercase, DM Sans 700, 0.08em spacing)
-2. **Por qué Servare** — Quote + 3 flip cards (problem→solution on hover) + story CTA
+1. **Hero** — full-screen photo + title
+2. **Por qué Servare** — quote + 3 flip cards
 3. **Lo que hace Servare** — 6 capabilities + phone mockup
 4. **Herramientas** — 3x2 feature grid
-5. **Equipo** — Team photo + All in Chile badge
-6. **CTA** — Call to action with access button
-7. **Contacto** — Info + EmailJS form
+5. **Equipo** — team photo + All in Chile badge
+6. **CTA** — call to action with access button
+7. **Contacto** — info + EmailJS form
 
 ## Additional Pages
-- `biblioteca.html` — Curated heritage library (implemented, based on mockup-k-biblioteca.html)
-- `repositorio.html` — Public object repository (implemented, based on mockup-k-repositorio.html)
+- `biblioteca.html` — curated heritage library
+- `repositorio.html` — public object repository
 
 ## Contact
-- Email: servare.dp@gmail.com
-- LinkedIn: @servare-database-patrimonial
+- Email: `servare@management.cloud`
+- LinkedIn: `@servare-database-patrimonial`
 - Location: Santiago, Chile
