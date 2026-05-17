@@ -20,39 +20,6 @@
 
 import LogtoClient from "https://esm.sh/@logto/browser@3?bundle";
 
-// ─────────────────────────────────────────────────────────────────────
-// Workaround Mixed Content: Logto 1.38 detrás de Traefik NO confía en
-// X-Forwarded-Proto, así que el discovery doc devuelve URLs http:// para
-// el endpoint público. El SDK browser respeta esas URLs y dispara fetch
-// HTTP desde una página HTTPS → bloqueado por Mixed Content del browser.
-//
-// Fix: interceptamos window.fetch ANTES del primer uso del SDK y reescribimos
-// http://auth.servare.cloud → https://... en respuestas del well-known.
-// Patch contenido (solo afecta requests al discovery, no las demás del site).
-// Cuando Logto soporte trust-proxy nativo, sacar este wrapper.
-// ─────────────────────────────────────────────────────────────────────
-(function patchFetchForLogtoMixedContent() {
-  const PUBLIC_HOST = "auth.servare.cloud";
-  const _origFetch = window.fetch.bind(window);
-  window.fetch = async function (input, init) {
-    const url = typeof input === "string" ? input : (input && input.url) || "";
-    const response = await _origFetch(input, init);
-    if (url.includes(PUBLIC_HOST) && url.includes("/.well-known/openid-configuration")) {
-      const text = await response.clone().text();
-      const fixed = text.replace(
-        new RegExp(`http://${PUBLIC_HOST}`, "g"),
-        `https://${PUBLIC_HOST}`
-      );
-      return new Response(fixed, {
-        status: response.status,
-        statusText: response.statusText,
-        headers: response.headers,
-      });
-    }
-    return response;
-  };
-})();
-
 const LOGTO_CONFIG = {
   endpoint: "https://auth.servare.cloud",
   appId: "a7lt3drdkrisl3be7ly54",
