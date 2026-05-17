@@ -222,30 +222,15 @@ body.dark .icon-moon { display: inline; }
 }
 
 /* ===== AUTH (renderizados por js/auth.js) ===== */
-/* "Hola, X" — primer item del menu cuando autenticado. Matchea `.menu-links a`
-   (font-size 2rem) pero sin hover/opacity dim porque no es un link. */
-.menu-auth-greeting span {
-  color: #fff;
-  font-size: 2rem;
-  font-weight: 700;
-  letter-spacing: -0.03em;
+/* "Hola, X" — primer item del menu cuando autenticado. El <a> sin href
+   ya hereda font-size 2rem + weight 700 + color #fff de `.menu-links a`.
+   Solo neutralizamos la opacity dim (no es un link interactivo) y le
+   damos cursor default. */
+.menu-auth-greeting a {
   opacity: 1;
+  cursor: default;
 }
-/* "Cerrar sesión" — botón estilizado como link del nav */
-.menu-auth-logout {
-  background: none;
-  border: 0;
-  color: #fff;
-  font-size: 2rem;
-  font-weight: 700;
-  letter-spacing: -0.03em;
-  opacity: 0.5;
-  cursor: pointer;
-  padding: 0;
-  font-family: inherit;
-  transition: opacity 0.15s ease;
-}
-.menu-auth-logout:hover { opacity: 1; }
+.menu-auth-greeting a:hover { opacity: 1; }
 
 /* ===== RESPONSIVE ===== */
 @media (max-width: 768px) {
@@ -261,8 +246,7 @@ body.dark .icon-moon { display: inline; }
     font-size: 1.5rem;
   }
 
-  .menu-auth-greeting span,
-  .menu-auth-logout { font-size: 1.5rem; }
+  /* mobile: .menu-auth-greeting a hereda 1.5rem de .menu-links a */
 
   .side-dots {
     right: 1rem;

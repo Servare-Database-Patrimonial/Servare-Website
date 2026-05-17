@@ -105,23 +105,27 @@ function renderAuthNav({ authenticated, firstName }) {
   if (authenticated) {
     // Insertar "Hola, X" como hermano ANTES del primer link de navegación,
     // si no existe ya. Mantiene patrón "saludo primero" que biblioteca usa.
+    // Usamos un <a> sin href para que herede automáticamente .menu-links a
+    // (font-size 2rem, weight 700, color #fff) y se vea idéntico al resto.
     const list = slot.parentElement;
     if (!list.querySelector(".menu-auth-greeting")) {
       const greeting = document.createElement("li");
       greeting.className = "menu-auth-greeting";
-      greeting.innerHTML = `<span>Hola, <strong>${escapeHtml(firstName || "")}</strong></span>`;
+      greeting.innerHTML = `<a>Hola, ${escapeHtml(firstName || "")}</a>`;
       list.insertBefore(greeting, list.firstElementChild);
     }
-    // Reemplazar el slot por los CTAs autenticados.
+    // Reemplazar el slot por los CTAs autenticados — todo como <a> para
+    // heredar el mismo tipografía/tamaño que los links del nav.
     slot.outerHTML = `
-      <li><a href="https://app.servare.cloud" class="menu-cta" onclick="typeof toggleMenu==='function' && toggleMenu()">Ir a la app</a></li>
+      <li><a href="https://app.servare.cloud" onclick="typeof toggleMenu==='function' && toggleMenu()">Ir a la app</a></li>
       <li><a href="https://biblioteca.servare.cloud" onclick="typeof toggleMenu==='function' && toggleMenu()">Ir a la biblioteca</a></li>
-      <li><button type="button" class="menu-auth-logout" onclick="typeof toggleMenu==='function' && toggleMenu(); window.__servareAuth.signOut()">Cerrar sesión</button></li>
+      <li><a href="#" onclick="event.preventDefault(); typeof toggleMenu==='function' && toggleMenu(); window.__servareAuth.signOut();">Cerrar sesión</a></li>
     `;
   } else {
-    // Anónimo: "Iniciar sesión" reemplaza el slot.
+    // Anónimo: "Iniciar sesión" reemplaza el slot. Mismo styling que los
+    // demás links (sin clase menu-cta pill) para consistencia visual.
     slot.outerHTML = `
-      <li><a href="#" class="menu-cta" onclick="event.preventDefault(); typeof toggleMenu==='function' && toggleMenu(); window.__servareAuth.signIn();">Iniciar sesión</a></li>
+      <li><a href="#" onclick="event.preventDefault(); typeof toggleMenu==='function' && toggleMenu(); window.__servareAuth.signIn();">Iniciar sesión</a></li>
     `;
   }
 }
