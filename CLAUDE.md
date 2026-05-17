@@ -15,15 +15,19 @@ npm run dev        # local dev server at http://localhost:3001
 npm run preview    # preview build
 ```
 
-Deploy to the VM (from `~/servare/` on the VM, where docker-compose lives):
+Deploy to the VM:
 ```bash
-docker compose up -d --build website
+# Code lives in ~/Servare-website_servidor (sibling de ~/servare).
+# El docker-compose.yml de app-web tiene `build.context: ../Servare-website_servidor`.
+ssh -i ~/.ssh/servare-oracle ubuntu@146.235.242.138
+cd ~/Servare-website_servidor && git pull origin main
+cd ~/servare && docker compose up -d --no-deps --build website
 docker compose logs -f website
 ```
 
-**Source of truth is `public/`.** Edit there, commit, pull on the VM, rebuild.
+**Source of truth is `public/`.** Edit there, commit, push, pull en VM, rebuild.
 
-> Legacy: `sync-docs.sh` and `docs/` are leftovers from the GitHub Pages era. Not part of the current deploy. Don't update them.
+> Legacy: `sync-docs.sh` y `docs/` son leftovers de la era GitHub Pages. Pre-cutover (17 may 2026) GH Pages servía desde `docs/`. Post-cutover el website lo sirve nginx desde `public/` en la VM y `docs/` ya no se usa. Si querés limpiar el repo: borrar `docs/` y `sync-docs.sh` en un commit dedicado.
 
 ---
 
@@ -42,7 +46,7 @@ Design: **Model K** — Immersive Gallery with dark/light mode toggle. Reference
 ```
 public/                    # source of truth, served by nginx
   index.html               # landing
-  biblioteca.html          # curated heritage library
+  biblioteca.html          # redirect a https://biblioteca.servare.cloud (canonical + meta refresh + JS)
   repositorio.html         # public object repository
   css/
     variables.css          # theme variables (light/dark)
@@ -90,6 +94,11 @@ nginx.conf                 # nginx site config
 ### App Redirect
 `redirectToApp()` in `public/js/config.js` → `https://app.servare.cloud` (same VM, Traefik route).
 
+Además: nginx tiene un `location /app` que devuelve **301 → app.servare.cloud** preservando path (ver `nginx.conf`). Esto reemplaza una vieja Cloudflare Redirect Rule que apuntaba a Firebase, eliminada en el cutover (17 may 2026).
+
+### Biblioteca pública
+Vive en `biblioteca.servare.cloud` (subdomain separado, SSR Fastify+EJS desde el container `servare-api` con middleware Traefik que inyecta prefijo `/biblioteca`). NO está en este repo — código en `app-web/backend/src/views/library/` y `app-web/backend/src/routes/library-public.js`. El archivo `public/biblioteca.html` de este repo solo redirige a ese subdomain.
+
 ### EmailJS Contact Form
 `public/js/contact.js`. Credentials:
 ```
@@ -102,11 +111,10 @@ Requires `https://api.emailjs.com` in CSP `connect-src`.
 ### Theme Toggle
 `body.dark` class, persisted in `localStorage('servare-theme')`.
 
-### Cloudflare CSP
-Configured in Cloudflare Transform Rules (zone `servare.cloud`). `connect-src` must include:
-`'self'`, `https://api.servare.cloud`, `https://auth.servare.cloud`, `https://api.emailjs.com`.
+### Cloudflare headers
+Verificado al cutover (17 may 2026): **NO hay Transform Rule de CSP activa** en la zona. EmailJS y demás integraciones funcionan sin policy explícita. nginx agrega `X-Frame-Options`, `X-Content-Type-Options`, `X-XSS-Protection`, `Referrer-Policy` (ver `nginx.conf`).
 
-When adding external API calls or script CDNs, update the Transform Rule in the Cloudflare dashboard — not just the origin nginx config (Cloudflare's rule overrides origin headers).
+Si en el futuro hay que activar CSP, hacerlo en la Transform Rule de CF (`connect-src` debería incluir `'self'`, `https://api.servare.cloud`, `https://auth.servare.cloud`, `https://api.emailjs.com`). Cloudflare's rule overrides origin headers.
 
 ---
 
@@ -116,16 +124,18 @@ When adding external API calls or script CDNs, update the Transform Rule in the 
 Cloudflare (DNS + proxy)
   └── servare.cloud → Oracle VM (146.235.242.138)
         └── Traefik (reverse proxy)
-              ├── servare.cloud         → servare-website (nginx + public/)
-              ├── app.servare.cloud     → servare-frontend
-              ├── api.servare.cloud     → servare-api
-              └── auth.servare.cloud    → servare-logto
+              ├── servare.cloud              → servare-website (nginx + public/)
+              ├── www.servare.cloud          → CF Redirect Rule 301 → servare.cloud
+              ├── app.servare.cloud          → servare-frontend
+              ├── api.servare.cloud          → servare-api (JSON)
+              ├── auth.servare.cloud         → servare-logto
+              └── biblioteca.servare.cloud   → servare-api (HTML SSR, addprefix /biblioteca)
 ```
 
 - **VM**: Oracle Cloud Ampere A1 Always Free, Santiago region
 - **SSL**: Traefik with Cloudflare DNS challenge (token in VM `.env`)
 - **Traefik dashboard**: NOT exposed publicly
-- **Cutover from GitHub Pages → VM**: completed 6-May-2026
+- **Cutover from GitHub Pages → VM**: completed **17-May-2026** (la nota previa decía 6-May pero solo se había completado el cutover de `app.`; el del apex `servare.cloud` quedó pendiente y se ejecutó el 17 — DNS apex CNAME→GH Pages cambió a A record→VM IP, junto con DELETE de Redirect Rule CF `/app→Firebase`).
 
 ---
 
