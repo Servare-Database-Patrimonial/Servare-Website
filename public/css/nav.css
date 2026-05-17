@@ -221,6 +221,32 @@ body.dark .icon-moon { display: inline; }
   transform: scale(1.4);
 }
 
+/* ===== AUTH (renderizados por js/auth.js) ===== */
+/* "Hola, X" — primer item del menu cuando autenticado. Matchea `.menu-links a`
+   (font-size 2rem) pero sin hover/opacity dim porque no es un link. */
+.menu-auth-greeting span {
+  color: #fff;
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  opacity: 1;
+}
+/* "Cerrar sesión" — botón estilizado como link del nav */
+.menu-auth-logout {
+  background: none;
+  border: 0;
+  color: #fff;
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  opacity: 0.5;
+  cursor: pointer;
+  padding: 0;
+  font-family: inherit;
+  transition: opacity 0.15s ease;
+}
+.menu-auth-logout:hover { opacity: 1; }
+
 /* ===== RESPONSIVE ===== */
 @media (max-width: 768px) {
   .floating-nav {
@@ -234,6 +260,9 @@ body.dark .icon-moon { display: inline; }
   .menu-links a {
     font-size: 1.5rem;
   }
+
+  .menu-auth-greeting span,
+  .menu-auth-logout { font-size: 1.5rem; }
 
   .side-dots {
     right: 1rem;

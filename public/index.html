@@ -34,6 +34,8 @@
   <!-- Config + Nav (loaded early for onclick handlers) -->
   <script src="js/config.js"></script>
   <script src="js/nav.js"></script>
+  <!-- Logto auth integration (ESM via esm.sh) — defer no es necesario porque type=module ya implica defer -->
+  <script type="module" src="js/auth.js"></script>
 </head>
 <body>
 
@@ -54,7 +56,8 @@
     <li><a href="#sec0" onclick="toggleMenu()">Inicio</a></li>
     <li><a href="https://biblioteca.servare.cloud/" onclick="toggleMenu()">Biblioteca</a></li>
     <li><a href="en-desarrollo.html" onclick="toggleMenu()">Repositorio</a></li>
-    <li><a href="#" onclick="toggleMenu(); redirectToApp(event);" class="menu-cta">Beta Cerrada</a></li>
+    <!-- Slot rellenado por auth.js: anónimo → "Iniciar sesión"; autenticado → CTAs + Cerrar sesión -->
+    <li data-auth-slot><a href="#" onclick="toggleMenu(); redirectToApp(event);" class="menu-cta">Beta Cerrada</a></li>
     <li>
       <button class="menu-theme-toggle" onclick="toggleTheme()" aria-label="Cambiar tema">
         <span class="icon-sun"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg></span>
