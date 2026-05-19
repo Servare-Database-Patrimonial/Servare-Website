@@ -93,10 +93,31 @@ async function handleCallback() {
   }
 }
 
+// Limpia las keys que el SDK Logto guarda en sessionStorage durante un
+// flujo de signIn (code_verifier, state, nonce, redirectUri). Sin esto, un
+// silent SSO que devolvió `error=login_required` deja restos que pueden
+// hacer fallar el próximo signIn manual con "Failed to fetch" — visto en
+// Edge primera vez (Website#9).
+function clearLogtoSignInSession() {
+  try {
+    const keys = [];
+    for (let i = 0; i < sessionStorage.length; i += 1) {
+      const k = sessionStorage.key(i);
+      if (k && k.startsWith("logto:")) keys.push(k);
+    }
+    keys.forEach((k) => sessionStorage.removeItem(k));
+  } catch (e) {
+    // sessionStorage puede estar deshabilitado en modo InPrivate estricto;
+    // no es fatal — el SDK se reinicializará en el próximo signIn.
+  }
+}
+
 // Limpia los query params de un callback con error (silent SSO fallido o
-// usuario canceló). No invoca al SDK porque no hay code para canjear; eso
-// dejaría state corrupto en su storage.
+// usuario canceló). Además limpia el state del SDK porque un signIn que
+// devolvió error deja code_verifier/state colgados en sessionStorage y
+// puede hacer fallar el próximo signIn manual (Edge, Website#9).
 function handleErrorCallback() {
+  clearLogtoSignInSession();
   window.history.replaceState({}, "", "/");
 }
 
@@ -116,9 +137,10 @@ async function attemptSilentSSO() {
     });
   } catch (err) {
     // Si el SDK falla antes del navigate (ej. config rota), no queremos
-    // quedar atascados — limpiar el flag y dejar caer en render anónimo.
+    // quedar atascados — limpiar el flag y el state parcial del SDK.
     console.error("[servare-auth] silent SSO trigger failed:", err);
     sessionStorage.removeItem(SILENT_ATTEMPTED_KEY);
+    clearLogtoSignInSession();
   }
 }
 
@@ -131,6 +153,10 @@ async function signIn(returnTo) {
   // Limpiar el guardrail de silent: el user pidió login interactivo, si
   // vuelve y luego cierra sesión, queremos que el próximo silent funcione.
   sessionStorage.removeItem(SILENT_ATTEMPTED_KEY);
+  // Limpiar state del SDK antes de arrancar: un silent SSO previo que
+  // devolvió error deja code_verifier/state colgados y rompe el próximo
+  // signIn manual con "Failed to fetch" en Edge (Website#9).
+  clearLogtoSignInSession();
   await getClient().signIn(LANDING_ORIGIN);
 }
 
