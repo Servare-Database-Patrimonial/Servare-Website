@@ -54,11 +54,23 @@ Crea el archivo `public/_headers` con este contenido:
   X-Content-Type-Options: nosniff
   X-XSS-Protection: 1; mode=block
   Referrer-Policy: strict-origin-when-cross-origin
-  Permissions-Policy: geolocation=(), microphone=(), camera=()
+  Permissions-Policy: geolocation=(self), microphone=(), camera=()
   Content-Security-Policy: default-src 'self' https:; script-src 'self' 'unsafe-inline' https://cdn.auth0.com https://cdn.jsdelivr.net https://fonts.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https:; font-src 'self' https://fonts.gstatic.com
 ```
 
 **Nota**: GitHub Pages NO soporta archivos `_headers` nativamente. Estas configuraciones deben hacerse en Cloudflare.
+
+> ⚠️ **`geolocation` va en `(self)`, no en `()`.** `geolocation=()` la prohíbe para TODOS, incluido el
+> propio sitio, y el navegador la bloquea **sin preguntarle nada al usuario**: el botón de «mi
+> ubicación» simplemente no hace nada y no hay diálogo de permiso que otorgar.
+>
+> Esta línea, tal como estaba escrita acá, se aplicó como regla en Cloudflare y dejó la captura de
+> coordenadas inutilizable en la aplicación web durante meses — se detectó recién el 20 jul 2026,
+> probando desde un celular en terreno. La aplicación Android no se veía afectada porque no pasa por
+> el navegador.
+>
+> Servare **necesita** geolocalización: es lo que georreferencia hallazgos y sitios. Cámara y
+> micrófono sí pueden quedar en `()` mientras no se usen desde la web.
 
 **En Cloudflare (Transform Rules):**
 ```
